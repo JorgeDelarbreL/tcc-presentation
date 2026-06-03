@@ -24,7 +24,7 @@ html, body {
   width: 100%; height: 100%;
   background: var(--black); color: var(--white);
   font-family: 'Montserrat', sans-serif;
-  overflow: hidden; cursor: auto;
+  overflow: hidden; cursor: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -104,33 +104,45 @@ html, body {
 #s8 .s8-inner { width:100%; max-width:1100px; padding:0 100px; display:flex; flex-direction:column; gap:32px; }
 .hbr-logo-wrap { height:52px; display:flex; align-items:center; opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
 .active .hbr-logo-wrap { opacity:1; transform:translateY(0); }
-.hbr-logo-wrap img { height:52px; width:auto; mix-blend-mode:screen; opacity:0.85; }
+.hbr-logo-wrap img { height:52px; width:auto; filter:brightness(0) invert(1); opacity:0.8; }
 .hbr-quote { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(26px,3.6vw,52px); line-height:1.15; color:var(--gold-light); max-width:860px; }
 .hbr-body { font-size:13px; font-weight:300; line-height:1.9; color:rgba(250,250,248,0.6); max-width:620px; }
 
-/* ── NUEVO: CUATRO VERTIENTES ───────────── */
-.four-wrap { width:100%; max-width:1200px; padding:0 80px; display:flex; flex-direction:column; gap:28px; }
-.four-title { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(36px,5vw,64px); line-height:1.05; }
-.four-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:36px; margin-top:12px; border-top:1px solid rgba(179,163,105,0.15); }
-.four-item { padding:28px 0 0 0; display:flex; flex-direction:column; gap:14px; border-right:1px solid rgba(179,163,105,0.08); padding-right:24px; }
-.four-item:last-child { border-right:none; padding-right:0; }
-.four-num { font-size:9px; font-weight:600; letter-spacing:0.3em; color:var(--gold); }
-.cream .four-num { color:#8B7D4A; }
-.four-name { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,2.4vw,32px); font-weight:500; line-height:1.1; }
-.four-desc { font-size:12px; font-weight:300; line-height:1.75; color:rgba(250,250,248,0.6); }
-.cream .four-desc { color:rgba(8,8,8,0.6); }
+/* ── S9–S12 VERTIENTES CON IMAGEN ───────── */
+.vertiente-slide .vt-inner { width:100%; max-width:1200px; padding:0 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+.vt-text { display:flex; flex-direction:column; gap:24px; position:relative; }
+.v-ghost { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(90px,13vw,170px); line-height:0.8; color:var(--gold); opacity:0.07; position:absolute; right:-20px; top:50%; transform:translateY(-50%); pointer-events:none; }
+.cream .v-ghost { color:rgba(8,8,8,0.06); }
+.v-name { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(38px,5.5vw,78px); line-height:0.95; }
+.v-body { font-size:13px; font-weight:300; line-height:1.85; max-width:480px; color:rgba(250,250,248,0.65); }
+.cream .v-body { color:rgba(8,8,8,0.6); }
+.vt-image { aspect-ratio:4/3; overflow:hidden; opacity:0; transform:translateX(24px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; }
+.active .vt-image { opacity:1; transform:translateX(0); }
+.vt-image img { width:100%; height:100%; object-fit:cover; filter:grayscale(15%) brightness(0.9); }
+.vt-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
-/* ── NUEVO: CUATRO EJEMPLOS ─────────────── */
-.examples-wrap { width:100%; max-width:1200px; padding:0 80px; display:flex; flex-direction:column; gap:28px; }
-.examples-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:28px; margin-top:8px; }
-.example-card { display:flex; flex-direction:column; gap:14px; }
-.example-img { aspect-ratio:4/3; overflow:hidden; background:rgba(179,163,105,0.05); border:1px solid rgba(179,163,105,0.12); }
-.example-img img { width:100%; height:100%; object-fit:cover; filter:grayscale(10%) brightness(0.92); }
-.example-tag { font-size:8px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.55); }
-.cream .example-tag { color:rgba(8,8,8,0.45); }
-.example-name { font-family:'Cormorant Garamond',serif; font-size:clamp(18px,2vw,24px); font-weight:500; line-height:1.15; }
-.example-desc { font-size:11px; font-weight:300; line-height:1.7; color:rgba(250,250,248,0.55); border-left:2px solid rgba(179,163,105,0.25); padding-left:12px; font-style:italic; }
-.cream .example-desc { color:rgba(8,8,8,0.55); border-left-color:rgba(139,125,74,0.3); }
+/* ── SLIDES DE EJEMPLO (un caso por slide) ── */
+.ejemplo-slide { background:var(--black); align-items:center; justify-content:center; overflow-y:auto; }
+.cream.ejemplo-slide { background:var(--cream); }
+.ejemplo-slide .ej-inner { width:100%; max-width:1200px; padding:60px 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+.ej-text { display:flex; flex-direction:column; gap:20px; }
+.ej-eyebrow { font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
+.cream .ej-eyebrow { color:#8B7D4A; }
+.active .ej-eyebrow { opacity:1; transform:translateY(0); }
+.ej-tag { font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(179,163,105,0.5); }
+.cream .ej-tag { color:rgba(8,8,8,0.35); }
+.ej-name { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,4.5vw,60px); font-weight:500; line-height:0.95; }
+.ej-divider { width:44px; height:1px; background:var(--gold); opacity:0; transform:scaleX(0); transform-origin:left; transition:opacity 0.45s 0.52s,transform 0.45s 0.52s ease; }
+.cream .ej-divider { background:#8B7D4A; }
+.active .ej-divider { opacity:1; transform:scaleX(1); }
+.ej-body { font-size:12px; font-weight:300; line-height:1.85; color:rgba(250,250,248,0.6); }
+.cream .ej-body { color:rgba(8,8,8,0.55); }
+.ej-result { font-size:12px; font-weight:400; line-height:1.75; color:rgba(179,163,105,0.8); border-left:2px solid rgba(179,163,105,0.3); padding-left:16px; font-style:italic; }
+.cream .ej-result { color:#8B7D4A; border-left-color:rgba(8,8,8,0.15); }
+.ej-image { aspect-ratio:4/3; overflow:hidden; opacity:0; transform:translateX(24px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; }
+.active .ej-image { opacity:1; transform:translateX(0); }
+.ej-image img { width:100%; height:100%; object-fit:cover; }
+.ej-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
 /* ── VUCA ───────────────────────────────── */
 #svuca { background:var(--black); flex-direction:column; align-items:center; justify-content:center; }
@@ -319,14 +331,6 @@ html, body {
 #s27.active .obama-video-wrap { opacity:1; transform:translateY(0); }
 #s27 .obama-video-wrap iframe { width:100%; height:100%; border:none; }
 
-@media (max-width: 900px) {
-  .four-grid, .examples-grid { grid-template-columns:repeat(2,1fr); }
-}
-@media (max-width: 600px) {
-  .four-grid, .examples-grid { grid-template-columns:1fr; }
-  .four-item { border-right:none; padding-right:0; border-bottom:1px solid rgba(179,163,105,0.08); padding-bottom:20px; }
-}
-
 </style>
 </head>
 <body>
@@ -335,15 +339,15 @@ html, body {
 <div id="cursor-dot"></div>
 <div id="progress-bar"></div>
 <div id="slide-counter"></div>
-<button class="nav-arrow" id="nav-prev" onclick="retreat()">&#8592;</button>
-<button class="nav-arrow" id="nav-next" onclick="advance()">&#8594;</button>
+<button class="nav-arrow" id="nav-prev">&#8592;</button>
+<button class="nav-arrow" id="nav-next">&#8594;</button>
 <div id="hint">espacio · flecha para avanzar</div>
 
 
 <!-- ═══════════════════ ACTO II ═══════════════════ -->
 
 <!-- S2 -->
-<div class="slide active" id="s2">
+<div class="slide" id="s2">
   <div class="question">¿Quién construye<br>esa reputación?</div>
 </div>
 
@@ -441,68 +445,134 @@ html, body {
   </div>
 </div>
 
-<!-- S9 — LAS CUATRO VERTIENTES (NUEVO) -->
-<div class="slide" id="s9">
-  <div class="four-wrap">
-    <div class="eyebrow">Las cuatro vertientes</div>
-    <div class="four-title fu-0">Comunicación integral</div>
-    <div class="divider-line"></div>
-    <div class="four-grid">
-      <div class="four-item fu-1">
-        <div class="four-num">01</div>
-        <div class="four-name">Corporativa</div>
-        <div class="four-desc">Construye y protege credibilidad ante autoridades, aliados e inversores. Gestiona la licencia social para operar.</div>
-      </div>
-      <div class="four-item fu-1">
-        <div class="four-num">02</div>
-        <div class="four-name">Marca</div>
-        <div class="four-desc">Genera interés orgánico con historias auténticas. No compra atención, se la gana con valor real.</div>
-      </div>
-      <div class="four-item fu-2">
-        <div class="four-num">03</div>
-        <div class="four-name">Interna</div>
-        <div class="four-desc">Desarrolla cultura y pertenencia. La reputación externa se sostiene primero sobre convicción interna.</div>
-      </div>
-      <div class="four-item fu-2">
-        <div class="four-num">04</div>
-        <div class="four-name">Riesgos y Crisis</div>
-        <div class="four-desc">Anticipa y neutraliza escenarios adversos. Protege la identidad con respuestas rápidas y claras.</div>
-      </div>
+<!-- S9 — VERTIENTE 01 · CORPORATIVA -->
+<div class="slide vertiente-slide" id="s9">
+  <div class="vt-inner">
+    <div class="vt-text">
+      <div class="v-ghost">01</div>
+      <div class="eyebrow">Vertiente 01 / 04</div>
+      <div class="v-name fu-0">Comunicación<br>Corporativa</div>
+      <div class="divider-line"></div>
+      <div class="v-body fu-1">Construye y protege la credibilidad ante autoridades, aliados e inversores. Gestiona nuestra licencia social para operar, garantizando que el entorno institucional perciba el impacto positivo de nuestras decisiones.</div>
+    </div>
+    <div class="vt-image">
+      <img src="img/v_corporativa.jpg" alt="Comunicación Corporativa" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_corporativa.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- S10 — CUATRO VERTIENTES EN ACCIÓN (NUEVO) -->
-<div class="slide cream" id="s10">
-  <div class="examples-wrap">
-    <div class="eyebrow">Las cuatro vertientes en acción</div>
-    <div class="four-title fu-0">Casos que lo prueban</div>
-    <div class="divider-line"></div>
-    <div class="examples-grid">
-      <div class="example-card fu-1">
-        <div class="example-img"><img src="img/ej_blackstone.jpg" alt="Blackstone"></div>
-        <div class="example-tag">01 · Corporativa</div>
-        <div class="example-name">Blackstone Real Estate</div>
-        <div class="example-desc">Credibilidad institucional construida con narrativa consistente en Davos y cartas a inversores. Captó capital en los peores momentos porque la confianza ya existía.</div>
-      </div>
-      <div class="example-card fu-1">
-        <div class="example-img"><img src="img/ej_bandon.jpg" alt="Bandon Dunes"></div>
-        <div class="example-tag">02 · Marca</div>
-        <div class="example-name">Bandon Dunes Oregon</div>
-        <div class="example-desc">Cero publicidad desde 1999. 23,000 rondas el primer año solo por recomendación. La experiencia real se volvió su mejor medio.</div>
-      </div>
-      <div class="example-card fu-2">
-        <div class="example-img"><img src="img/ej_fourseasons.jpg" alt="Four Seasons"></div>
-        <div class="example-tag">03 · Interna</div>
-        <div class="example-name">Four Seasons</div>
-        <div class="example-desc">"The Golden Rule" como única directriz interna. Sin manual de servicio, con cultura instalada en 100+ hoteles.</div>
-      </div>
-      <div class="example-card fu-2">
-        <div class="example-img"><img src="img/ej_aeromexico.jpg" alt="Aeroméxico"></div>
-        <div class="example-tag">04 · Riesgos</div>
-        <div class="example-name">Aeroméxico 2431</div>
-        <div class="example-desc">Primer comunicado en 15 minutos. Director general en conferencia esa noche. Las acciones no cayeron.</div>
-      </div>
+<!-- S9b — EJEMPLO CORPORATIVA: BLACKSTONE -->
+<div class="slide ejemplo-slide" id="s9b">
+  <div class="ej-inner">
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación Corporativa en acción</div>
+      <div class="ej-tag fu-0">Real Estate · Inversión institucional global</div>
+      <div class="ej-name fu-1">Blackstone<br>Real Estate</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">El mayor gestor de activos inmobiliarios del mundo construyó su credibilidad institucional ante gobiernos, reguladores e inversores a través de comunicación estratégica muy controlada: cartas trimestrales a inversores, vocería selectiva de sus líderes en Davos y medios financieros tier 1, y una narrativa consistente de "valor a largo plazo" que nunca varía sin importar el ciclo del mercado.</div>
+      <div class="ej-result fu-3">Les permitió captar capital en los peores momentos del mercado inmobiliario. La confianza institucional ya estaba construida antes de que se necesitara.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_blackstone.jpg" alt="Blackstone Real Estate" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_blackstone.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S10 — VERTIENTE 02 · MARCA -->
+<div class="slide cream vertiente-slide" id="s10">
+  <div class="vt-inner">
+    <div class="vt-text">
+      <div class="v-ghost">02</div>
+      <div class="eyebrow">Vertiente 02 / 04</div>
+      <div class="v-name fu-0">Comunicación<br>de Marca</div>
+      <div class="divider-line"></div>
+      <div class="v-body fu-1">Conecta con la audiencia correcta mediante la generación de interés orgánico. Centra su mensaje en el valor real que obtiene el usuario. A diferencia de la publicidad, no paga por la atención; se la gana mediante historias auténticas.</div>
+    </div>
+    <div class="vt-image">
+      <img src="img/v_marca.jpg" alt="Comunicación de Marca" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_marca.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S10b — EJEMPLO MARCA: BANDON DUNES -->
+<div class="slide cream ejemplo-slide" id="s10b">
+  <div class="ej-inner">
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación de Marca en acción</div>
+      <div class="ej-tag fu-0">Golf resort · Oregon · Sin publicidad desde 1999</div>
+      <div class="ej-name fu-1">Bandon Dunes<br>Oregon</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">En 1999 Mike Keiser abrió un campo en una costa remota de Oregon sin un solo peso en publicidad. Su única estrategia: hacer el campo tan bueno que los golfistas no pudieran callarse. Necesitaba 12,000 rondas para sobrevivir el primer año. Terminó con 23,000 — todo por recomendación boca a boca entre golfistas serios que no podían dejar de hablar del lugar.</div>
+      <div class="ej-result fu-3">25 años después es el mejor destino de golf público del mundo y sigue sin publicidad pagada. La reputación construida desde la experiencia real es el activo más difícil de replicar.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_bandon.jpg" alt="Bandon Dunes Oregon" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_bandon.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S11 — VERTIENTE 03 · INTERNA -->
+<div class="slide vertiente-slide" id="s11">
+  <div class="vt-inner">
+    <div class="vt-text">
+      <div class="v-ghost">03</div>
+      <div class="eyebrow">Vertiente 03 / 04</div>
+      <div class="v-name fu-0">Comunicación<br>Interna</div>
+      <div class="divider-line"></div>
+      <div class="v-body fu-1">Desarrolla la cultura y el sentido de pertenencia. Asegura que los equipos comprendan el rumbo del negocio para que proyecten esa misma confianza hacia afuera. La reputación externa se sostiene, primero, sobre la convicción interna.</div>
+    </div>
+    <div class="vt-image">
+      <img src="img/v_interna.jpg" alt="Comunicación Interna" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_interna.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S11b — EJEMPLO INTERNA: FOUR SEASONS THE GOLDEN RULE -->
+<div class="slide ejemplo-slide" id="s11b">
+  <div class="ej-inner">
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación Interna en acción</div>
+      <div class="ej-tag fu-0">Hospitalidad de lujo · Cultura organizacional</div>
+      <div class="ej-name fu-1">Four Seasons<br>The Golden Rule</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">Su principio fundacional de comunicación interna es una sola frase: tratar a los demás como quisieras ser tratado. Cada colaborador la recibe desde el primer día y toda la comunicación interna orbita alrededor de ese principio. No hay manual de servicio al cliente — hay una cultura instalada. En más de 100 hoteles y 30 países, el mensaje es siempre el mismo porque nació desde adentro.</div>
+      <div class="ej-result fu-3">La cultura interna se convirtió en el activo de marca más valioso de la cadena. Sus empleados son los mejores embajadores externos porque primero creyeron el mensaje por dentro.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_fourseasons.jpg" alt="Four Seasons The Golden Rule" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_fourseasons.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S12 — VERTIENTE 04 · CRISIS -->
+<div class="slide cream vertiente-slide" id="s12">
+  <div class="vt-inner">
+    <div class="vt-text">
+      <div class="v-ghost">04</div>
+      <div class="eyebrow">Vertiente 04 / 04</div>
+      <div class="v-name fu-0">Gestión de Riesgos<br>y Manejo de Crisis</div>
+      <div class="divider-line"></div>
+      <div class="v-body fu-1">Anticipa, monitoriza y neutraliza escenarios adversos. En periodos de incertidumbre, protege la identidad de la organización garantizando respuestas rápidas, claras y enfocadas siempre en la resolución para nuestra comunidad.</div>
+    </div>
+    <div class="vt-image">
+      <img src="img/v_crisis.jpg" alt="Gestión de Riesgos" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_crisis.jpg</div>'">
+    </div>
+  </div>
+</div>
+
+<!-- S12b — EJEMPLO CRISIS: AEROMÉXICO VUELO 2431 -->
+<div class="slide cream ejemplo-slide" id="s12b">
+  <div class="ej-inner">
+    <div class="ej-text">
+      <div class="ej-eyebrow">Gestión de Crisis en acción</div>
+      <div class="ej-tag fu-0">México · Julio 2018 · Crisis en tiempo real</div>
+      <div class="ej-name fu-1">Aeroméxico<br>Vuelo 2431</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">El 31 de julio de 2018, el vuelo AM2431 se desplomó en Durango segundos después de despegar con 103 personas a bordo. En menos de 15 minutos Aeroméxico emitió su primer comunicado. Esa misma tarde habilitaron transporte gratuito para familias y una línea de atención. Esa misma noche, el director general Andrés Conesa convocó a conferencia de prensa, cubrió el 100% de los gastos, reconoció el accidente sin excusas y dijo que las causas se darían a conocer cuando hubiera información verificada — sin especular.</div>
+      <div class="ej-result fu-3">"El mercado tuvo una mejor reacción porque su directivo salió a anunciar una serie de medidas." Las acciones de Aeroméxico no cayeron. La comunicación proactiva salvó el valor de la empresa en las horas más críticas.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_aeromexico.jpg" alt="Aeroméxico Vuelo 2431 conferencia de prensa" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_aeromexico.jpg</div>'">
     </div>
   </div>
 </div>
@@ -537,9 +607,9 @@ html, body {
         </div>
       </div>
       <div class="ctx-fotos">
-        <div class="ctx-foto"><img src="img/critica_01.jpg"></div>
-        <div class="ctx-foto"><img src="img/critica_02.jpg"></div>
-        <div class="ctx-foto"><img src="img/critica_03.jpg"></div>
+        <div class="ctx-foto"><img src="img/critica_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_01</div>'"></div>
+        <div class="ctx-foto"><img src="img/critica_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_02</div>'"></div>
+        <div class="ctx-foto"><img src="img/critica_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_03</div>'"></div>
       </div>
     </div>
     <div class="mundial-row">
@@ -561,7 +631,7 @@ html, body {
       <div class="diag-body fu-2">La firma del acuerdo con la Fundación Real Madrid y el Rally Maya sumaron el 97.5&nbsp;% de los impactos. Al carecer de menciones directas a la oferta de Real Estate o de qué somos, el residencial se pierde en la conversación.</div>
     </div>
     <div class="diag-image">
-      <img src="img/diag_tcc.jpg">
+      <img src="img/diag_tcc.jpg" onerror="this.parentElement.innerHTML='<div class=\'diag-ph\'>img/diag_tcc.jpg</div>'">
     </div>
   </div>
 </div>
@@ -577,7 +647,7 @@ html, body {
       <div class="diag-body fu-2">El Korn Ferry Tour y los reconocimientos al campo generaron el 83&nbsp;% de los impactos. La cobertura existía, pero se agotaba en el evento. Reconocimiento World Golf Awards sin campaña de amplificación activa más allá de la semana del anuncio.</div>
     </div>
     <div class="diag-image">
-      <img src="img/diag_pga.jpg">
+      <img src="img/diag_pga.jpg" onerror="this.parentElement.innerHTML='<div class=\'diag-ph\'>img/diag_pga.jpg</div>'">
     </div>
   </div>
 </div>
@@ -595,7 +665,7 @@ html, body {
       </div>
     </div>
     <div class="diag-image">
-      <img src="img/diag_bench.jpg">
+      <img src="img/diag_bench.jpg" onerror="this.parentElement.innerHTML='<div class=\'diag-ph\'>img/diag_bench.jpg</div>'">
     </div>
   </div>
 </div>
@@ -604,7 +674,7 @@ html, body {
 <div class="slide reto-slide" id="s15">
   <div class="reto-wrap">
     <div class="reto-text"><div class="reto-ghost">01</div><div class="reto-label fu-0">Reto 01 / 06</div><div class="reto-name fu-1">Consolidación de la<br>narrativa institucional</div><div class="divider-line"></div><div class="reto-body fu-2">Unificar los esfuerzos previos en una narrativa madre aplicable a todos los niveles, garantizando que cada acción proyecte un carácter institucional propio y coherente.</div></div>
-    <div class="reto-image"><img src="img/reto_01.jpg"></div>
+    <div class="reto-image"><img src="img/reto_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_01.jpg</div>'"></div>
   </div>
 </div>
 
@@ -612,7 +682,7 @@ html, body {
 <div class="slide cream reto-slide" id="s16">
   <div class="reto-wrap">
     <div class="reto-text"><div class="reto-ghost">02</div><div class="reto-label fu-0">Reto 02 / 06</div><div class="reto-name fu-1">Evolución y profesionalización<br>de la vocería</div><div class="divider-line"></div><div class="reto-body fu-2">Transitar de interacciones mediáticas pagadas a una visibilidad orgánica, implementando un programa de entrenamiento formal que garantice transmisiones precisas y eficaces.</div></div>
-    <div class="reto-image"><img src="img/reto_02.jpg"></div>
+    <div class="reto-image"><img src="img/reto_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_02.jpg</div>'"></div>
   </div>
 </div>
 
@@ -620,7 +690,7 @@ html, body {
 <div class="slide reto-slide" id="s17">
   <div class="reto-wrap">
     <div class="reto-text"><div class="reto-ghost">03</div><div class="reto-label fu-0">Reto 03 / 06</div><div class="reto-name fu-1">Estructuración de la<br>comunicación interna</div><div class="divider-line"></div><div class="reto-body fu-2">Construir desde cero un ecosistema propio, independiente de la división hotelera, para unificar protocolos y conectar a todos los colaboradores bajo una misma identidad.</div></div>
-    <div class="reto-image"><img src="img/reto_03.jpg"></div>
+    <div class="reto-image"><img src="img/reto_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_03.jpg</div>'"></div>
   </div>
 </div>
 
@@ -628,7 +698,7 @@ html, body {
 <div class="slide cream reto-slide" id="s18">
   <div class="reto-wrap">
     <div class="reto-text"><div class="reto-ghost">04</div><div class="reto-label fu-0">Reto 04 / 06</div><div class="reto-name fu-1">Gobernanza y<br>cadencia de canales</div><div class="divider-line"></div><div class="reto-body fu-2">Depurar la dispersión actual de plataformas mediante un plan editorial claro, convirtiéndolas en espacios verdaderamente activos y con continuidad.</div></div>
-    <div class="reto-image"><img src="img/reto_04.jpg"></div>
+    <div class="reto-image"><img src="img/reto_04.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_04.jpg</div>'"></div>
   </div>
 </div>
 
@@ -636,7 +706,7 @@ html, body {
 <div class="slide reto-slide" id="s19">
   <div class="reto-wrap">
     <div class="reto-text"><div class="reto-ghost">05</div><div class="reto-label fu-0">Reto 05 / 06</div><div class="reto-name fu-1">Proyección externa<br>de los activos</div><div class="divider-line"></div><div class="reto-body fu-2">Cerrar la brecha de desconocimiento en el mercado proyectando nuestra realidad hacia afuera, logrando que nos reconozcan por lo que somos antes de visitarnos.</div></div>
-    <div class="reto-image"><img src="img/reto_05.jpg"></div>
+    <div class="reto-image"><img src="img/reto_05.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_05.jpg</div>'"></div>
   </div>
 </div>
 
@@ -727,8 +797,8 @@ html, body {
         </div>
       </div>
       <div class="res-kft-image">
-        <img src="img/kft_01.jpg">
-        <img src="img/kft_02.jpg" style="margin-top:8px">
+        <img src="img/kft_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'res-img-ph\'>img/kft_01.jpg</div>'">
+        <img src="img/kft_02.jpg" style="margin-top:8px" onerror="this.style.display='none'">
       </div>
     </div>
   </div>
@@ -748,7 +818,7 @@ html, body {
           </div>
         </div>
         <div class="res-moment-img">
-          <img src="img/frm_cobertura.jpg">
+          <img src="img/frm_cobertura.jpg" onerror="this.parentElement.innerHTML='<div class=\'res-moment-ph\'>img/frm_cobertura.jpg</div>'">
         </div>
       </div>
       <div class="res-moment-row">
@@ -759,7 +829,7 @@ html, body {
           </div>
         </div>
         <div class="res-moment-img">
-          <img src="img/pablo_entrevista.jpg">
+          <img src="img/pablo_entrevista.jpg" onerror="this.parentElement.innerHTML='<div class=\'res-moment-ph\'>img/pablo_entrevista.jpg</div>'">
         </div>
       </div>
     </div>
@@ -780,7 +850,7 @@ html, body {
           </div>
         </div>
         <div class="res-moment-img">
-          <img src="img/evp_grupos.jpg">
+          <img src="img/evp_grupos.jpg" onerror="this.parentElement.innerHTML='<div class=\'res-moment-ph\'>img/evp_grupos.jpg</div>'">
         </div>
       </div>
       <div class="res-moment-row">
@@ -791,7 +861,7 @@ html, body {
           </div>
         </div>
         <div class="res-moment-img">
-          <img src="img/narrativa.jpg">
+          <img src="img/narrativa.jpg" onerror="this.parentElement.innerHTML='<div class=\'res-moment-ph\'>img/narrativa.jpg</div>'">
         </div>
       </div>
     </div>
@@ -836,7 +906,7 @@ html, body {
 <div class="slide" id="s27">
   <div class="obama-label">Para cerrar.</div>
   <div class="obama-video-wrap">
-    <iframe src="https://www.youtube.com/embed/X65e6t2I-SM?rel=0&modestbranding=1&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Barack Obama — Farewell"></iframe>
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0&modestbranding=1&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Barack Obama — Farewell"></iframe>
   </div>
 </div>
 
@@ -851,7 +921,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 /* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
   's2','s3','s4','s5','s6','s7','s8',
-  's9','s10',
+  's9','s9b','s10','s10b','s11','s11b','s12','s12b',
   'svuca','s13','s14a','s14b','s14c',
   's15','s16','s17','s18','s19','s20',
   's22','s23','s24','s24b','s24c','s25','s26','s27'
@@ -863,10 +933,10 @@ const schemaCols=document.querySelectorAll('#schema-grid .schema-col');
 function getEl(id){return document.getElementById(id);}
 function showByIdx(i){
   if(i<0||i>=SLIDE_IDS.length)return;
-  var prev = getEl(SLIDE_IDS[idx]); if(prev) prev.classList.remove('active');
+  getEl(SLIDE_IDS[idx])?.classList.remove('active');
   idx=i;
   const id=SLIDE_IDS[idx];
-  var curr = getEl(id); if(curr) curr.classList.add('active');
+  getEl(id)?.classList.add('active');
   updateChrome();
   if(id!=='s7'){schemaStep=0;schemaCols.forEach(c=>c.classList.remove('vis'));}
   if(idx>0)document.getElementById('hint').style.opacity='0';
@@ -884,6 +954,7 @@ function updateChrome(){
   const id=SLIDE_IDS[idx];
   let n=id.replace('s','').replace('b','').replace('c','');
   if(id==='svuca')n='VUCA';
+  if(id==='s9b')n='9';if(id==='s10b')n='10';if(id==='s11b')n='11';if(id==='s12b')n='12';
   if(id==='s14a'||id==='s14b'||id==='s14c')n='14';
   if(id==='s24b'||id==='s24c')n='24';
   document.getElementById('slide-counter').textContent=String(n).padStart(2,'0')+' / '+String(LAST_NUM).padStart(2,'0');
@@ -901,7 +972,7 @@ document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;
 
 /* ── LÍNEA DE TIEMPO ─────────────────────── */
 const HITOS=[
-  {title:'WALA · Acciones iniciales de PR — Nov 2025',body:'Primeras acciones de relaciones públicas del área en el contexto del WALA — Women's Amateur Latin America de la R&A y la Anikka Foundation. El arranque del área de Comunicación en modo PR activo, posicionando PGA Riviera Maya ante medios de golf internacionales.'},
+  {title:'WALA · Acciones iniciales de PR — Nov 2025',body:'Primeras acciones de relaciones públicas del área en el contexto del WALA — Women\'s Amateur Latin America de la R&A y la Anikka Foundation. El arranque del área de Comunicación en modo PR activo, posicionando PGA Riviera Maya ante medios de golf internacionales.'},
   {title:'Arranque KFT · FITUR · Clínicas FRM — Ene 2026',body:'Tres frentes simultáneos: inicio de la estrategia de comunicación del Korn Ferry Tour, presencia en FITUR Madrid con cobertura de la Fundación Real Madrid, y arranque de la narrativa de las primeras Clínicas en Cancún. El área de Comunicación opera por primera vez como un sistema integrado.'},
   {title:'Amplificación Korn Ferry Tour — Mar 2026',body:'Fase de amplificación previa al torneo: generación de contenido editorial, activación de vocería con Pablo Junco, cobertura anticipada en medios de golf nacionales e internacionales. La narrativa del campo y de TCC empieza a circular antes del evento.'},
   {title:'Korn Ferry Tour — Abr 2026',body:'El evento: 761 impactos, +436M de alcance, +$6M en Ad Value, +169% vs 2025. Washington Post, El Universal, Marca, Golf Channel, ESPN. El resultado histórico que valida la estrategia de comunicación extendida más allá de la semana del torneo.'},
@@ -926,7 +997,7 @@ window.addEventListener('load',()=>{
   if(ctxBg&&tvSrc)ctxBg.style.backgroundImage='url('+tvSrc+')';
 });
 
-window.addEventListener('DOMContentLoaded', function(){ showByIdx(0); });
+showByIdx(0);
 </script>
 </body>
 </html>
