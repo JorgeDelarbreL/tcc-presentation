@@ -48,8 +48,6 @@ html, body {
 .nav-btn.lt{color:rgba(8,8,8,.18)}.nav-btn.lt:hover{color:var(--gd)}
 
 /* SECTIONS */
-.sec{position:fixed;inset:0;opacity:0;pointer-events:none;transition:opacity .65s cubic-bezier(.4,0,.2,1)}
-.sec.active{opacity:1;pointer-events:all}
 .slide{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .55s ease;background:var(--k)}
 .slide.cream{background:var(--c);color:var(--k)}
 .slide.active{opacity:1;pointer-events:all}
@@ -399,15 +397,6 @@ html, body {
 .ej-image img { width:100%; height:100%; object-fit:cover; }
 .ej-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
-<!-- VIDEO ENTRE VERTIENTES Y VUCA -->
-<div class="slide" id="svideo1">
-  <div class="obama-video-wrap" style="max-width:800px">
-    <iframe src="https://www.youtube.com/embed/Qy2SGKl2maY?rel=0&modestbranding=1&controls=1"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
-  </div>
-</div>
-
   
 /* ── VUCA ───────────────────────────────── */
 #svuca { background:var(--black); flex-direction:column; align-items:center; justify-content:center; }
@@ -451,14 +440,6 @@ html, body {
 .ctx-close { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(18px,2.2vw,28px); line-height:1.3; color:var(--white); max-width:720px; opacity:0; transform:translateY(12px); transition:opacity 0.8s 1.3s ease,transform 0.8s 1.3s ease; }
 #s13.active .ctx-close { opacity:1; transform:translateY(0); }
 
-<!-- VIDEO ENTRE CONTEXTO Y DIAGNÓSTICO -->
-<div class="slide" id="svideo2">
-  <div class="obama-video-wrap" style="max-width:800px">
-    <iframe src="https://www.youtube.com/embed/Yky2WymkUiw?rel=0&modestbranding=1&controls=1"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
-  </div>
-</div>
   
 /* ── S14 DIAGNÓSTICO ────────────────────── */
 .diag-slide { background:var(--black); align-items:flex-start; }
@@ -609,8 +590,8 @@ html, body {
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-dot"></div>
+<div id="cursor" class="cur-r"></div>
+<div id="cursor-dot" class="cur"></div>
 <div id="progress-bar"></div>
 <div id="slide-counter"></div>
 <button class="nav-arrow" id="nav-prev">&#8592;</button>
@@ -620,7 +601,7 @@ html, body {
   <!-- ════════════ ACTO I ════════════ -->
 
 <!-- S0: PORTADA -->
-<section class="sec active" id="s0">
+<div class="slide active" id="s0">
   <div class="p-bg"><img id="aerialImg" src="img/aerial.jpg" alt="aerial"></div>
   <div class="p-grain"></div>
   <div class="p-cnt">
@@ -639,7 +620,7 @@ html, body {
 </section>
 
 <!-- S1: FÚTBOL -->
-<section class="sec" id="s1">
+<div class="slide" id="s1">
   <div class="split-wrap">
     <div class="split-hd" id="hd1"><div class="split-cat">⚽ 01 · Punto de partida · Fútbol</div><div class="split-q">¿A cuál echarías del Real Madrid?</div></div>
     <div class="split-div"></div>
@@ -661,7 +642,7 @@ html, body {
 </section>
 
 <!-- S2: TECNOLOGÍA -->
-<section class="sec" id="s2">
+<div class="slide" id="s2">
   <div class="prod-wrap">
     <div class="prod-bg-glow"></div>
     <div class="prod-hd" id="hd2"><div class="prod-cat">📱 02 · Tecnología</div><div class="prod-q">¿Cuál compras? Mismo precio.</div></div>
@@ -691,7 +672,7 @@ html, body {
 </section>
 
 <!-- S3: COCHES -->
-<section class="sec" id="s3">
+<div class="slide" id="s3">
   <div class="prod-wrap">
     <div class="prod-bg-glow"></div>
     <div class="prod-hd" id="hd3"><div class="prod-cat">🚗 03 · Movilidad</div><div class="prod-q">¿Cuál compras? Mismo precio.</div></div>
@@ -721,7 +702,7 @@ html, body {
 </section>
 
 <!-- S4: GOLF -->
-<section class="sec" id="s4">
+<div class="slide" id="s4">
   <div class="split-wrap">
     <div class="split-hd" id="hd4"><div class="split-cat">⛳ 04 · Golf</div><div class="split-q">¿En cuál juegas?</div></div>
     <div class="split-div"></div>
@@ -743,7 +724,7 @@ html, body {
 </section>
 
 <!-- S5: INVERSIÓN -->
-<section class="sec" id="s5">
+<div class="slide" id="s5">
   <div class="inv-wrap">
     <div class="inv-hd" id="hd5"><div class="inv-cat">💰 05 · Inversión</div><div class="inv-q">Tienes 5 millones de dólares. ¿Dónde los pones?</div></div>
     <div class="inv-div"></div>
@@ -775,7 +756,7 @@ html, body {
 </section>
 
 <!-- S6: REMATE -->
-<section class="sec" id="s6">
+<div class="slide" id="s6">
   <div style="display:flex;align-items:center;justify-content:center;height:100%">
     <div class="rem-wrap">
       <div class="rem-ey" id="rey">01 · Punto de partida · Conclusión</div>
@@ -1343,11 +1324,16 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 
 /* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
-  's3','s4','s7','s8',
-  's9','s10','svideo1',
-  'svuca','s13','svideo2','s14a','s14b','s14c',
-  's15','s16','s17','s18','s19','s20',
-  's22','s23','s24','s24b','s24c','s25','s26','s27'
+  's0',
+  's1', 's2', 's3', 's4', 's5', 's6',
+  's7', 's8', 's9', 's10', 's11', 's12', 's13',
+  's14', 's15',
+  'svuca', 's16',
+  's17a', 's17b', 's17c',
+  's18', 's19', 's20', 's21', 's22', 's23',
+  's24', 's25',
+  's26', 's26b', 's26c',
+  's27', 's28', 's29'
 ];
 const LAST_NUM=27;
 let idx=0,s7step=0;
