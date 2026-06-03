@@ -751,11 +751,6 @@ html, body {
 
 <!-- ═══════════════════ ACTO II ═══════════════════ -->
 
-<!-- SA: ¿QUIÉN CONSTRUYE? -->
-<div class="slide" id="sq">
-  <div class="question">¿Quién construye<br>esa reputación?</div>
-</div>
-
 <!-- S3 — 90% -->
 <div class="slide rep-slide" id="sr1">
   <div class="inner">
@@ -776,30 +771,6 @@ html, body {
       <div class="rep-source">Sandpiper · Reputation Capital Scorecard 2026 · +3,000 C-Suite en 27 mercados · Davos</div>
       <div class="rep-claim">De los CEOs en el mundo reporta que las debilidades reputacionales impactaron directamente sus ventas y actividad comercial en el último año</div>
       <div class="rep-detail">La reputación no es consecuencia de la estrategia. Para siete de cada diez líderes globales es la variable que más afecta el resultado comercial.</div>
-    </div>
-  </div>
-</div>
-
-<!-- S5 — 73.7% -->
-<div class="slide rep-slide" id="sr3">
-  <div class="inner">
-    <div class="rep-num">73.7<span style="font-size:0.32em;vertical-align:0.14em">%</span></div>
-    <div class="rep-right">
-      <div class="rep-source">Corporate Excellence · Approaching the Future 2025 · 2,116 profesionales</div>
-      <div class="rep-claim">De los profesionales en Latinoamérica sitúan la reputación como su prioridad estratégica número uno, por encima de cualquier otro intangible</div>
-      <div class="rep-detail">En mercados como el Caribe mexicano, donde la confianza institucional es más escasa, el diferencial reputacional tiene aún mayor impacto sobre la decisión de compra.</div>
-    </div>
-  </div>
-</div>
-
-<!-- S6 — 63% -->
-<div class="slide cream rep-slide" id="sr4">
-  <div class="inner">
-    <div class="rep-num">63<span style="font-size:0.42em;vertical-align:0.12em">%</span></div>
-    <div class="rep-right">
-      <div class="rep-source">Corporate Excellence · Tendencias España 2025</div>
-      <div class="rep-claim">De las organizaciones en España concentra su mayor inversión estratégica en comunicación corporativa, por encima de IA, sostenibilidad y gestión de riesgos</div>
-      <div class="rep-detail">Un porcentaje que sigue creciendo en todos los sectores, incluido el real estate premium y el turismo de lujo.</div>
     </div>
   </div>
 </div>
@@ -962,6 +933,14 @@ html, body {
   </div>
 </div>
 
+  <!-- NUEVO VIDEO 1: PREVIO A VUCA -->
+<div class="slide" id="svid1" style="align-items:center; justify-content:center;">
+  <div style="width:100%; max-width:1000px; aspect-ratio:16/9; border:1px solid rgba(179,163,105,0.2);">
+    <!-- Usamos data-src y agregamos &autoplay=1 -->
+    <iframe data-src="https://www.youtube.com/embed/Qy2SGKl2maY?rel=0&modestbranding=1&controls=1&autoplay=1" allow="autoplay; fullscreen" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
+  
 <!-- SVUCA — VUCA -->
 <div class="slide" id="svuca">
   <div class="vuca-wrap">
@@ -1005,6 +984,14 @@ html, body {
   </div>
 </div>
 
+  <!-- NUEVO VIDEO 2: POST ENTORNO -->
+<div class="slide" id="svid2" style="align-items:center; justify-content:center;">
+  <div style="width:100%; max-width:1000px; aspect-ratio:16/9; border:1px solid rgba(179,163,105,0.2);">
+    <!-- Usamos data-src y agregamos &autoplay=1 -->
+    <iframe data-src="https://www.youtube.com/embed/Yky2WymkUiw?rel=0&modestbranding=1&controls=1&autoplay=1" allow="autoplay; fullscreen" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
+  
 <!-- S14a — DIAGNÓSTICO TCC -->
 <div class="slide diag-slide" id="s14a">
   <div class="d-inner">
@@ -1291,7 +1278,7 @@ html, body {
 <div class="slide" id="s27">
   <div class="obama-label">Para cerrar.</div>
   <div class="obama-video-wrap">
-    <iframe src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0&modestbranding=1&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Barack Obama — Farewell"></iframe>
+  <iframe data-src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0&modestbranding=1&controls=1&autoplay=1" allow="autoplay; fullscreen" style="width:100%; height:100%; border:none;"></iframe>
   </div>
 </div>
 
@@ -1307,17 +1294,18 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 const SLIDE_IDS=[
   's0',
   's1',
-  'sa', 'sc', 'sd', 'se',
-  'sq', 'sr1', 'sr2', 'sr3', 'sr4',
+  'sa', 'sc', 'sd', 'se', // Quitamos los coches ('sb') en el paso anterior
+  'sr1', 'sr2',           // Eliminamos sq, sr3, y sr4
   's7', 's8', 's9', 's10',
-  'svuca', 's13',
+  'svid1', 'svuca',       // Video 1 antes de VUCA
+  's13', 'svid2',         // Video 2 después del Entorno
   's14a', 's14b', 's14c',
   's15', 's16', 's17', 's18', 's19', 's20',
   's22', 's23',
   's24', 's24b', 's24c',
   's25', 's26', 's27'
 ];
-const LAST_NUM=26;
+const LAST_NUM = SLIDE_IDS.length - 1; // Cálculo dinámico automático
 let idx=0,s7step=0;
 
 /* reveal state para s9 y s10 */
@@ -1338,18 +1326,37 @@ function resetVG(id){
 function showByIdx(i){
   if(i<0||i>=SLIDE_IDS.length)return;
   const prevId=SLIDE_IDS[idx];
-  getEl(prevId)?.classList.remove('active');
+  const prevSlide = getEl(prevId);
+  
+  // 1. Apagar video al salir del slide
+  if(prevSlide){
+    prevSlide.classList.remove('active');
+    prevSlide.querySelectorAll('iframe').forEach(ifr => {
+      if(ifr.dataset.src) ifr.src = ''; 
+    });
+  }
+  
   idx=i;
   const id=SLIDE_IDS[idx];
-  getEl(id)?.classList.add('active');
+  const currSlide = getEl(id);
+  
+  // 2. Encender video al entrar al slide
+  if(currSlide){
+    currSlide.classList.add('active');
+    currSlide.querySelectorAll('iframe').forEach(ifr => {
+      if(ifr.dataset.src) ifr.src = ifr.dataset.src; 
+    });
+  }
+
   if(id!=='s7'){s7step=0;const r=document.getElementById('ec-col-right');if(r)r.classList.remove('highlighted');}
   if(id!=='s9')resetVG('s9');
   if(id!=='s10')resetVG('s10');
   updateChrome();
-if(idx>0)document.getElementById('hint').style.opacity='0';
+  if(idx>0)document.getElementById('hint').style.opacity='0';
+  
   setTimeout(()=>{
     const sel='#'+id+' ';
-    document.querySelectorAll(sel+'.p-ey, '+sel+'.p-tl-ln, '+sel+'.p-rule, '+sel+'.p-meta').forEach(el=>el.classList.add('v'));
+    document.querySelectorAll(sel+'.p-ey, '+sel+'.p-tl-ln, '+sel+'.p-rule, '+sel+'.p-meta, '+sel+'.rem-ey, '+sel+'.rem-rule, '+sel+'.rem-sub').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.split-nm,'+sel+'.split-btn').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.prod-img-wrap,'+sel+'.prod-info,'+sel+'.prod-vs').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.inv-label,'+sel+'.inv-nm,'+sel+'.inv-rate,'+sel+'.inv-btn').forEach(el=>el.classList.add('v'));
@@ -1358,6 +1365,7 @@ if(idx>0)document.getElementById('hint').style.opacity='0';
   },50);
 }
 
+  
 function advance(){
   const id=SLIDE_IDS[idx];
   /* s7 dos estados */
