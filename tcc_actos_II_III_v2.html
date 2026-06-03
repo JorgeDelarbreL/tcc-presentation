@@ -24,7 +24,7 @@ html, body {
   width: 100%; height: 100%;
   background: var(--black); color: var(--white);
   font-family: 'Montserrat', sans-serif;
-  overflow: hidden; cursor: none;
+  overflow: hidden; cursor: auto;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -335,8 +335,8 @@ html, body {
 <div id="cursor-dot"></div>
 <div id="progress-bar"></div>
 <div id="slide-counter"></div>
-<button class="nav-arrow" id="nav-prev">&#8592;</button>
-<button class="nav-arrow" id="nav-next">&#8594;</button>
+<button class="nav-arrow" id="nav-prev" onclick="retreat()">&#8592;</button>
+<button class="nav-arrow" id="nav-next" onclick="advance()">&#8594;</button>
 <div id="hint">espacio · flecha para avanzar</div>
 
 
