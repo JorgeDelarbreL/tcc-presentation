@@ -343,7 +343,7 @@ html, body {
 <!-- ═══════════════════ ACTO II ═══════════════════ -->
 
 <!-- S2 -->
-<div class="slide" id="s2">
+<div class="slide active" id="s2">
   <div class="question">¿Quién construye<br>esa reputación?</div>
 </div>
 
@@ -863,10 +863,10 @@ const schemaCols=document.querySelectorAll('#schema-grid .schema-col');
 function getEl(id){return document.getElementById(id);}
 function showByIdx(i){
   if(i<0||i>=SLIDE_IDS.length)return;
-  getEl(SLIDE_IDS[idx])?.classList.remove('active');
+  var prev = getEl(SLIDE_IDS[idx]); if(prev) prev.classList.remove('active');
   idx=i;
   const id=SLIDE_IDS[idx];
-  getEl(id)?.classList.add('active');
+  var curr = getEl(id); if(curr) curr.classList.add('active');
   updateChrome();
   if(id!=='s7'){schemaStep=0;schemaCols.forEach(c=>c.classList.remove('vis'));}
   if(idx>0)document.getElementById('hint').style.opacity='0';
@@ -926,7 +926,7 @@ window.addEventListener('load',()=>{
   if(ctxBg&&tvSrc)ctxBg.style.backgroundImage='url('+tvSrc+')';
 });
 
-showByIdx(0);
+window.addEventListener('DOMContentLoaded', function(){ showByIdx(0); });
 </script>
 </body>
 </html>
