@@ -79,26 +79,134 @@ html, body {
 .cream .rep-detail { color:rgba(8,8,8,0.6); }
 .active .rep-detail { opacity:1; transform:translateX(0); }
 
-/* ── S7 ESQUEMA ─────────────────────────── */
-#s7 .schema-wrap { width:100%; max-width:1160px; padding:0 80px; display:flex; flex-direction:column; gap:40px; }
-#s7 .schema-title { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,4vw,52px); font-weight:300; line-height:1.1; opacity:0; transform:translateY(18px); transition:opacity 0.7s 0.1s ease,transform 0.7s 0.1s ease; }
-#s7.active .schema-title { opacity:1; transform:translateY(0); }
-.schema-grid { display:flex; gap:0; border-top:1px solid rgba(179,163,105,0.15); }
-.schema-col { flex:1; padding:24px 16px 24px 0; border-right:1px solid rgba(179,163,105,0.1); display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(20px); }
-.schema-col:last-child { border-right:none; padding-right:0; }
-.schema-col.vis { opacity:1; transform:translateY(0); }
-.schema-col:nth-child(1){transition:opacity 0.5s 0s ease,transform 0.5s 0s ease;}
-.schema-col:nth-child(2){transition:opacity 0.5s 0.12s ease,transform 0.5s 0.12s ease;}
-.schema-col:nth-child(3){transition:opacity 0.5s 0.24s ease,transform 0.5s 0.24s ease;}
-.schema-col:nth-child(4){transition:opacity 0.5s 0.36s ease,transform 0.5s 0.36s ease;}
-.schema-col:nth-child(5){transition:opacity 0.5s 0.48s ease,transform 0.5s 0.48s ease;}
-.sc-icon { width:28px; height:28px; margin-bottom:4px; opacity:0.55; }
-.sc-num { font-size:9px; font-weight:600; letter-spacing:0.3em; color:var(--gold); }
-.sc-name { font-family:'Cormorant Garamond',serif; font-size:clamp(16px,1.8vw,22px); font-weight:500; line-height:1.15; color:var(--white); }
-.sc-items { font-size:10px; font-weight:300; line-height:1.7; color:rgba(250,250,248,0.45); }
-.schema-axis { display:flex; align-items:center; gap:16px; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.45); opacity:0; transition:opacity 0.6s 0.6s ease; }
-#s7.active .schema-axis { opacity:1; }
-.axis-rule { flex:1; height:3px; background:linear-gradient(90deg,rgba(179,163,105,0.9) 0%,rgba(179,163,105,0.6) 30%,rgba(179,163,105,0.2) 70%,rgba(179,163,105,0.05) 100%); border-radius:2px; }
+/* ── S7 DIAGRAMA ESTRATEGIA CLIENTE ─────── */
+#s7 { background:var(--black); align-items:center; justify-content:center; }
+#s7 .ec-wrap {
+  width:100%; max-width:1200px; padding:0 60px;
+  display:flex; flex-direction:column; gap:12px;
+  opacity:0; transform:translateY(20px);
+  transition:opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
+}
+#s7.active .ec-wrap { opacity:1; transform:translateY(0); }
+
+/* título */
+.ec-title-row {
+  font-size:9px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:4px;
+}
+
+/* fila de cabeceras superiores */
+.ec-header-row {
+  display:grid; grid-template-columns:120px 1fr 1fr 1fr;
+  gap:6px; align-items:stretch;
+}
+.ec-header-cell {
+  background:rgba(179,163,105,0.12);
+  border:1px solid rgba(179,163,105,0.25);
+  padding:10px 14px;
+  font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center;
+}
+.ec-header-cell.label { background:rgba(179,163,105,0.08); color:rgba(250,250,248,0.5); }
+.ec-header-main {
+  background:rgba(179,163,105,0.18);
+  grid-column:span 1;
+  font-family:'Cormorant Garamond',serif; font-size:clamp(13px,1.4vw,17px);
+  font-weight:500; letter-spacing:0; text-transform:none; color:var(--white);
+  justify-content:center; text-align:center;
+}
+
+/* body row */
+.ec-body-row {
+  display:grid; grid-template-columns:120px 1fr 1fr 1fr;
+  gap:6px; align-items:stretch; min-height:160px;
+}
+.ec-row-label {
+  background:rgba(179,163,105,0.08);
+  border:1px solid rgba(179,163,105,0.2);
+  padding:10px 14px;
+  font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
+  color:rgba(250,250,248,0.5);
+  display:flex; align-items:center; writing-mode:horizontal-tb;
+}
+
+/* columna izquierda: bloques apilados */
+.ec-col-left {
+  border:1px solid rgba(179,163,105,0.2);
+  display:flex; flex-direction:column; gap:0;
+  overflow:hidden;
+}
+.ec-block {
+  flex:1; padding:10px 14px;
+  border-bottom:1px solid rgba(179,163,105,0.15);
+  font-size:11px; font-weight:300; line-height:1.5; color:rgba(250,250,248,0.7);
+  display:flex; align-items:center;
+}
+.ec-block:last-child { border-bottom:none; }
+
+/* columna central: persona + flecha */
+.ec-col-person {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; border:1px solid rgba(179,163,105,0.15); padding:12px;
+}
+.ec-person-icon { opacity:0.7; }
+.ec-person-label {
+  font-size:9px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase;
+  color:var(--gold);
+}
+.ec-person-sub {
+  font-size:9px; font-weight:300; color:rgba(250,250,248,0.4);
+  text-align:center; line-height:1.5;
+}
+.ec-arrow {
+  font-size:18px; color:rgba(179,163,105,0.5);
+}
+
+/* columna derecha: bloques ecosistema */
+.ec-col-right {
+  position:relative; display:flex; flex-direction:column; gap:0;
+  border:1px solid rgba(179,163,105,0.2); overflow:hidden;
+  transition:border-color 0.4s ease;
+}
+.ec-col-right.highlighted {
+  border-color:var(--gold);
+  box-shadow:0 0 24px rgba(179,163,105,0.15);
+}
+.ec-eco-block {
+  flex:1; padding:10px 14px;
+  border-bottom:1px solid rgba(179,163,105,0.15);
+  font-size:11px; font-weight:300; line-height:1.5; color:rgba(250,250,248,0.7);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  transition:color 0.4s ease, background 0.4s ease;
+}
+.ec-eco-block:last-child { border-bottom:none; }
+.ec-col-right.highlighted .ec-eco-block {
+  color:var(--white); background:rgba(179,163,105,0.08);
+}
+.ec-eco-label {
+  position:absolute; right:-28px; top:50%; transform:translateY(-50%) rotate(90deg);
+  font-size:8px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase;
+  color:rgba(179,163,105,0.5); white-space:nowrap;
+  transition:color 0.4s ease;
+}
+.ec-col-right.highlighted .ec-eco-label { color:var(--gold); }
+
+/* fila de medición */
+.ec-medicion-row {
+  display:grid; grid-template-columns:120px 1fr;
+  gap:6px;
+}
+.ec-medicion-label {
+  background:rgba(179,163,105,0.08); border:1px solid rgba(179,163,105,0.2);
+  padding:8px 14px; font-size:9px; font-weight:600; letter-spacing:0.2em;
+  text-transform:uppercase; color:rgba(250,250,248,0.4);
+  display:flex; align-items:center;
+}
+.ec-medicion-val {
+  border:1px solid rgba(179,163,105,0.15); padding:8px 14px;
+  font-size:10px; font-weight:400; letter-spacing:0.15em;
+  color:rgba(179,163,105,0.6); display:flex; align-items:center;
+}
 
 /* ── S8 HBR ─────────────────────────────── */
 #s8 .s8-inner { width:100%; max-width:1100px; padding:0 100px; display:flex; flex-direction:column; gap:32px; }
@@ -399,39 +507,67 @@ html, body {
   </div>
 </div>
 
-<!-- S7 — ESQUEMA -->
+<!-- S7 — DIAGRAMA ESTRATEGIA CLIENTE -->
 <div class="slide" id="s7">
-  <div class="schema-wrap">
-    <div class="schema-title fu-0">La reputación no es percepción. Es valor real.</div>
-    <div class="schema-grid" id="schema-grid">
-      <div class="schema-col">
-        <svg class="sc-icon" viewBox="0 0 28 28" fill="none"><ellipse cx="14" cy="14" rx="11" ry="11" stroke="#B3A369" stroke-width="1.5"/><path d="M9 16 Q14 21 19 16" stroke="#B3A369" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="10.5" cy="12" r="1.2" fill="#B3A369"/><circle cx="17.5" cy="12" r="1.2" fill="#B3A369"/></svg>
-        <div class="sc-num">01</div><div class="sc-name">Lo que<br>dices</div>
-        <div class="sc-items">Visión · Valores<br>Promesa · PR</div>
-      </div>
-      <div class="schema-col">
-        <svg class="sc-icon" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="#B3A369" stroke-width="1.5"/><polygon points="11,9 21,14 11,19" fill="#B3A369" opacity="0.8"/></svg>
-        <div class="sc-num">02</div><div class="sc-name">Lo que<br>haces</div>
-        <div class="sc-items">Acciones · Decisiones<br>Conducta</div>
-      </div>
-      <div class="schema-col">
-        <svg class="sc-icon" viewBox="0 0 28 28" fill="none"><path d="M14 22 C14 22 4 16 4 10 C4 7 6.5 5 9.5 5 C11.5 5 13 6 14 7.5 C15 6 16.5 5 18.5 5 C21.5 5 24 7 24 10 C24 16 14 22 14 22Z" stroke="#B3A369" stroke-width="1.5" fill="none"/></svg>
-        <div class="sc-num">03</div><div class="sc-name">Lo que<br>viven</div>
-        <div class="sc-items">Servicio · Producto<br>Experiencia</div>
-      </div>
-      <div class="schema-col">
-        <svg class="sc-icon" viewBox="0 0 28 28" fill="none"><path d="M3 14 C3 14 8 6 14 6 C20 6 25 14 25 14 C25 14 20 22 14 22 C8 22 3 14 3 14Z" stroke="#B3A369" stroke-width="1.5" fill="none"/><circle cx="14" cy="14" r="3.5" stroke="#B3A369" stroke-width="1.5"/></svg>
-        <div class="sc-num">04</div><div class="sc-name">Lo que<br>ven</div>
-        <div class="sc-items">Percepción · Cobertura<br>Imagen</div>
-      </div>
-      <div class="schema-col">
-        <svg class="sc-icon" viewBox="0 0 28 28" fill="none"><path d="M4 5 H24 V18 H14 L9 23 V18 H4 Z" stroke="#B3A369" stroke-width="1.5" stroke-linejoin="round" fill="none"/><circle cx="10" cy="11.5" r="1.2" fill="#B3A369"/><circle cx="14" cy="11.5" r="1.2" fill="#B3A369"/><circle cx="18" cy="11.5" r="1.2" fill="#B3A369"/></svg>
-        <div class="sc-num">05</div><div class="sc-name">Lo que dicen<br>otros</div>
-        <div class="sc-items">Recomendación<br>Redes · Medios</div>
+  <div class="ec-wrap">
+    <div class="ec-title-row">Estrategia Cliente — poner al cliente en el centro para mejorar la experiencia y fortalecer la relación</div>
+
+    <!-- cabeceras -->
+    <div class="ec-header-row">
+      <div class="ec-header-cell label"></div>
+      <div class="ec-header-cell ec-header-main">Mejorar la toma<br>de decisiones</div>
+      <div class="ec-header-cell ec-header-main">Incrementar<br>oportunidades</div>
+      <div class="ec-header-cell ec-header-main" id="ec-header-right">Generar un<br>mayor interés</div>
+    </div>
+
+    <!-- narrativa -->
+    <div class="ec-header-row" style="min-height:auto">
+      <div class="ec-header-cell label">Narrativa</div>
+      <div class="ec-header-cell ec-header-main" style="grid-column:span 3; font-size:11px; letter-spacing:0.08em; color:rgba(250,250,248,0.6); font-family:'Montserrat',sans-serif; font-weight:300; justify-content:flex-start;">
+        Narrativa de posicionamiento de la división &nbsp;·&nbsp; Discurso comercial por destino
       </div>
     </div>
-    <div class="schema-axis">
-      <span>Mayor control</span><span class="axis-rule"></span><span>Menor control</span>
+
+    <!-- body -->
+    <div class="ec-body-row">
+      <div class="ec-row-label">Líneas<br>estratégicas</div>
+
+      <!-- col izquierda: influencia indirecta -->
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Influencia indirecta</div>
+        <div class="ec-col-left">
+          <div class="ec-block">Procesos: Business cases, contratos…</div>
+          <div class="ec-block">Herramientas / CRM</div>
+          <div class="ec-block">KPIs / Análisis</div>
+        </div>
+      </div>
+
+      <!-- col centro: equipo -->
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Influencia directa</div>
+        <div class="ec-col-left">
+          <div class="ec-block">Materiales comerciales</div>
+          <div class="ec-block">Campañas digitales</div>
+          <div class="ec-block">Encuentros con clientes</div>
+        </div>
+      </div>
+
+      <!-- col derecha: ecosistema cliente -->
+      <div style="display:flex;flex-direction:column;gap:6px;position:relative;">
+        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Ecosistema Cliente</div>
+        <div class="ec-col-right" id="ec-col-right">
+          <div class="ec-eco-block">Medios de comunicación<br>y canales propios</div>
+          <div class="ec-eco-block">Reconocimientos<br>y patrocinios</div>
+          <div class="ec-eco-block">Foros, convenciones<br>y asociaciones</div>
+          <div class="ec-eco-label">ECOSISTEMA CLIENTE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- medición -->
+    <div class="ec-medicion-row">
+      <div class="ec-medicion-label">Medición</div>
+      <div class="ec-medicion-val">OKR</div>
     </div>
   </div>
 </div>
@@ -920,15 +1056,14 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 
 /* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
-  's2','s3','s4','s5','s6','s7','s8',
+  's2','s3','s4','s7','s8',
   's9','s9b','s10','s10b','s11','s11b','s12','s12b',
   'svuca','s13','s14a','s14b','s14c',
   's15','s16','s17','s18','s19','s20',
   's22','s23','s24','s24b','s24c','s25','s26','s27'
 ];
 const LAST_NUM=27;
-let idx=0,schemaStep=0;
-const schemaCols=document.querySelectorAll('#schema-grid .schema-col');
+let idx=0,s7step=0;
 
 function getEl(id){return document.getElementById(id);}
 function showByIdx(i){
@@ -937,16 +1072,24 @@ function showByIdx(i){
   idx=i;
   const id=SLIDE_IDS[idx];
   getEl(id)?.classList.add('active');
+  if(id!=='s7'){s7step=0;const r=document.getElementById('ec-col-right');if(r)r.classList.remove('highlighted');}
   updateChrome();
-  if(id!=='s7'){schemaStep=0;schemaCols.forEach(c=>c.classList.remove('vis'));}
   if(idx>0)document.getElementById('hint').style.opacity='0';
 }
 function advance(){
-  if(SLIDE_IDS[idx]==='s7'&&schemaStep<schemaCols.length){schemaCols[schemaStep].classList.add('vis');schemaStep++;return;}
+  if(SLIDE_IDS[idx]==='s7'&&s7step===0){
+    s7step=1;
+    document.getElementById('ec-col-right')?.classList.add('highlighted');
+    return;
+  }
   showByIdx(idx+1);
 }
 function retreat(){
-  if(SLIDE_IDS[idx]==='s7'&&schemaStep>0){schemaStep--;schemaCols[schemaStep].classList.remove('vis');return;}
+  if(SLIDE_IDS[idx]==='s7'&&s7step===1){
+    s7step=0;
+    document.getElementById('ec-col-right')?.classList.remove('highlighted');
+    return;
+  }
   showByIdx(idx-1);
 }
 function updateChrome(){
