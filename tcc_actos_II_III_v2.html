@@ -770,13 +770,13 @@ html, body {
 
 <!-- ═══════════════════ ACTO II ═══════════════════ -->
 
-<!-- S2 -->
-<div class="slide" id="sa">
+<!-- SA: ¿QUIÉN CONSTRUYE? -->
+<div class="slide" id="sq">
   <div class="question">¿Quién construye<br>esa reputación?</div>
 </div>
 
 <!-- S3 — 90% -->
-<div class="slide rep-slide" id="sb">
+<div class="slide rep-slide" id="sr1">
   <div class="inner">
     <div class="rep-num">90<span style="font-size:0.42em;vertical-align:0.12em">%</span></div>
     <div class="rep-right">
@@ -788,7 +788,7 @@ html, body {
 </div>
 
 <!-- S4 — 78% -->
-<div class="slide cream rep-slide" id="sc">
+<div class="slide cream rep-slide" id="sr2">
   <div class="inner">
     <div class="rep-num">78<span style="font-size:0.42em;vertical-align:0.12em">%</span></div>
     <div class="rep-right">
@@ -800,7 +800,7 @@ html, body {
 </div>
 
 <!-- S5 — 73.7% -->
-<div class="slide rep-slide" id="sd">
+<div class="slide rep-slide" id="sr3">
   <div class="inner">
     <div class="rep-num">73.7<span style="font-size:0.32em;vertical-align:0.14em">%</span></div>
     <div class="rep-right">
@@ -812,7 +812,7 @@ html, body {
 </div>
 
 <!-- S6 — 63% -->
-<div class="slide cream rep-slide" id="se">
+<div class="slide cream rep-slide" id="sr4">
   <div class="inner">
     <div class="rep-num">63<span style="font-size:0.42em;vertical-align:0.12em">%</span></div>
     <div class="rep-right">
@@ -1325,8 +1325,9 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 /* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
   's0',
-  's1', 's2', 's3', 's4', 's5', 's6',
+  's1',
   'sa', 'sb', 'sc', 'sd', 'se',
+  'sq', 'sr1', 'sr2', 'sr3', 'sr4',
   's7', 's8', 's9', 's10',
   'svuca', 's13',
   's14a', 's14b', 's14c',
@@ -1373,7 +1374,7 @@ if(idx>0)document.getElementById('hint').style.opacity='0';
     getEl('hd'+id.slice(1))?.classList.add('v');
     getEl('vs'+id.slice(1))?.classList.add('v');
   },50);
-}}
+}
 
 function advance(){
   const id=SLIDE_IDS[idx];
