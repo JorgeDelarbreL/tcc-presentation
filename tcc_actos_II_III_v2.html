@@ -10,9 +10,6 @@
 <script src="tcc_images.js"></script>
 <style>
 
-/* ════════════════════════════════════════════
-   RESET Y VARIABLES
-════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --black:      #080808;
@@ -31,359 +28,155 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ════════════════════════════════════════════
-   CURSOR
-════════════════════════════════════════════ */
-#cursor {
-  position: fixed; width: 20px; height: 20px;
-  border: 1.5px solid var(--gold); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%); mix-blend-mode: difference;
-}
-#cursor-dot {
-  position: fixed; width: 4px; height: 4px;
-  background: var(--gold); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
-}
+/* ── CURSOR ─────────────────────────────── */
+#cursor { position:fixed; width:20px; height:20px; border:1.5px solid var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+#cursor-dot { position:fixed; width:4px; height:4px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
 
-/* ════════════════════════════════════════════
-   CHROME
-════════════════════════════════════════════ */
-#progress-bar {
-  position: fixed; top: 0; left: 0; height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  z-index: 1000; transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
-}
-#slide-counter {
-  position: fixed; bottom: 32px; right: 44px;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.22em; color: rgba(179,163,105,0.4); z-index: 1000;
-}
-.nav-arrow {
-  position: fixed; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: rgba(179,163,105,0.3);
-  font-size: 20px; cursor: none; z-index: 1000; padding: 16px;
-  transition: color 0.3s;
-}
-.nav-arrow:hover { color: var(--gold); }
-#nav-prev { left: 18px; }
-#nav-next { right: 18px; }
-#hint {
-  position: fixed; bottom: 32px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 8px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(179,163,105,0.28); z-index: 100; animation: pulse 3s infinite;
-}
+/* ── CHROME ─────────────────────────────── */
+#progress-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--gold),var(--gold-light)); z-index:1000; transition:width 0.45s cubic-bezier(0.4,0,0.2,1); }
+#slide-counter { position:fixed; bottom:32px; right:44px; font-size:10px; font-weight:500; letter-spacing:0.22em; color:rgba(179,163,105,0.4); z-index:1000; }
+.nav-arrow { position:fixed; top:50%; transform:translateY(-50%); background:none; border:none; color:rgba(179,163,105,0.3); font-size:20px; cursor:none; z-index:1000; padding:16px; transition:color 0.3s; }
+.nav-arrow:hover { color:var(--gold); }
+#nav-prev { left:18px; }
+#nav-next { right:18px; }
+#hint { position:fixed; bottom:32px; left:50%; transform:translateX(-50%); font-size:8px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:rgba(179,163,105,0.28); z-index:100; animation:pulse 3s infinite; }
 @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
 
-/* ════════════════════════════════════════════
-   SLIDE ENGINE
-════════════════════════════════════════════ */
-.slide {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.55s ease; background: var(--black);
-}
-.slide.cream { background: var(--cream); color: var(--black); }
-.slide.active { opacity: 1; pointer-events: all; }
+/* ── SLIDE ENGINE ───────────────────────── */
+.slide { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.55s ease; background:var(--black); }
+.slide.cream { background:var(--cream); color:var(--black); }
+.slide.active { opacity:1; pointer-events:all; }
 
-/* ════════════════════════════════════════════
-   ÁTOMOS
-════════════════════════════════════════════ */
-.eyebrow {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.35em;
-  text-transform: uppercase; color: var(--gold);
-  opacity: 0; transform: translateY(10px);
-  transition: opacity 0.5s 0.1s ease, transform 0.5s 0.1s ease;
-}
-.cream .eyebrow { color: #8B7D4A; }
-.active .eyebrow { opacity: 1; transform: translateY(0); }
-
-.divider-line {
-  width: 44px; height: 1px; background: var(--gold);
-  opacity: 0; transform: scaleX(0); transform-origin: left;
-  transition: opacity 0.45s 0.52s, transform 0.45s 0.52s ease;
-}
-.cream .divider-line { background: #8B7D4A; }
-.active .divider-line { opacity: 1; transform: scaleX(1); }
-
-.fu-0 { opacity:0; transform:translateY(22px); transition: opacity 0.7s 0.25s ease, transform 0.7s 0.25s ease; }
-.fu-1 { opacity:0; transform:translateY(22px); transition: opacity 0.7s 0.45s ease, transform 0.7s 0.45s ease; }
-.fu-2 { opacity:0; transform:translateY(22px); transition: opacity 0.7s 0.65s ease, transform 0.7s 0.65s ease; }
-.fu-3 { opacity:0; transform:translateY(22px); transition: opacity 0.7s 0.85s ease, transform 0.7s 0.85s ease; }
+/* ── ÁTOMOS ─────────────────────────────── */
+.eyebrow { font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
+.cream .eyebrow { color:#8B7D4A; }
+.active .eyebrow { opacity:1; transform:translateY(0); }
+.divider-line { width:44px; height:1px; background:var(--gold); opacity:0; transform:scaleX(0); transform-origin:left; transition:opacity 0.45s 0.52s,transform 0.45s 0.52s ease; }
+.cream .divider-line { background:#8B7D4A; }
+.active .divider-line { opacity:1; transform:scaleX(1); }
+.fu-0 { opacity:0; transform:translateY(22px); transition:opacity 0.7s 0.25s ease,transform 0.7s 0.25s ease; }
+.fu-1 { opacity:0; transform:translateY(22px); transition:opacity 0.7s 0.45s ease,transform 0.7s 0.45s ease; }
+.fu-2 { opacity:0; transform:translateY(22px); transition:opacity 0.7s 0.65s ease,transform 0.7s 0.65s ease; }
+.fu-3 { opacity:0; transform:translateY(22px); transition:opacity 0.7s 0.85s ease,transform 0.7s 0.85s ease; }
 .active .fu-0,.active .fu-1,.active .fu-2,.active .fu-3 { opacity:1; transform:translateY(0); }
 
-/* ════════════════════════════════════════════
-   S2 — TRANSICIÓN
-════════════════════════════════════════════ */
-#s2 .question {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
-  font-size: clamp(48px, 6vw, 90px); line-height: 1.08; text-align: center;
-  color: var(--white); max-width: 900px; padding: 0 60px;
-  opacity: 0; transform: translateY(28px);
-  transition: opacity 1s 0.3s ease, transform 1s 0.3s ease;
-}
-#s2.active .question { opacity: 1; transform: translateY(0); }
+/* ── S2 ─────────────────────────────────── */
+#s2 .question { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(48px,6vw,90px); line-height:1.08; text-align:center; color:var(--white); max-width:900px; padding:0 60px; opacity:0; transform:translateY(28px); transition:opacity 1s 0.3s ease,transform 1s 0.3s ease; }
+#s2.active .question { opacity:1; transform:translateY(0); }
 
-/* ════════════════════════════════════════════
-   S3–S6 — DATOS REPUTACIÓN
-════════════════════════════════════════════ */
-.rep-slide .inner {
-  width: 100%; max-width: 1160px; padding: 0 100px;
-  display: flex; align-items: center; gap: 64px;
-}
-.rep-num {
-  font-family: 'Cormorant Garamond', serif; font-weight: 300;
-  font-size: clamp(110px, 18vw, 240px); line-height: 0.82; color: var(--gold);
-  flex-shrink: 0; opacity: 0; transform: scale(0.65);
-  transition: opacity 0.75s 0.2s ease, transform 0.75s 0.2s cubic-bezier(0.34,1.56,0.64,1);
-}
-.cream .rep-num { color: var(--black); }
-.active .rep-num { opacity: 1; transform: scale(1); }
-.rep-right { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-.rep-source {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
-  opacity: 0; transform: translateX(20px);
-  transition: opacity 0.6s 0.55s ease, transform 0.6s 0.55s ease;
-}
-.cream .rep-source { color: #8B7D4A; }
-.active .rep-source { opacity: 1; transform: translateX(0); }
-.rep-claim {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(20px, 2.6vw, 34px); font-weight: 400; line-height: 1.25;
-  opacity: 0; transform: translateX(20px);
-  transition: opacity 0.7s 0.72s ease, transform 0.7s 0.72s ease;
-}
-.active .rep-claim { opacity: 1; transform: translateX(0); }
-.rep-detail {
-  font-size: 15px; font-weight: 300; line-height: 1.85;
-  color: rgba(250,250,248,0.65); max-width: 440px;
-  opacity: 0; transform: translateX(20px);
-  transition: opacity 0.65s 0.9s ease, transform 0.65s 0.9s ease;
-}
-.cream .rep-detail { color: rgba(8,8,8,0.6); }
-.active .rep-detail { opacity: 1; transform: translateX(0); }
+/* ── S3–S6 DATOS REPUTACIÓN ─────────────── */
+.rep-slide .inner { width:100%; max-width:1160px; padding:0 100px; display:flex; align-items:center; gap:64px; }
+.rep-num { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(110px,18vw,240px); line-height:0.82; color:var(--gold); flex-shrink:0; opacity:0; transform:scale(0.65); transition:opacity 0.75s 0.2s ease,transform 0.75s 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+.cream .rep-num { color:var(--black); }
+.active .rep-num { opacity:1; transform:scale(1); }
+.rep-right { flex:1; display:flex; flex-direction:column; gap:20px; }
+.rep-source { font-size:9px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); opacity:0; transform:translateX(20px); transition:opacity 0.6s 0.55s ease,transform 0.6s 0.55s ease; }
+.cream .rep-source { color:#8B7D4A; }
+.active .rep-source { opacity:1; transform:translateX(0); }
+.rep-claim { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.6vw,34px); font-weight:400; line-height:1.25; opacity:0; transform:translateX(20px); transition:opacity 0.7s 0.72s ease,transform 0.7s 0.72s ease; }
+.active .rep-claim { opacity:1; transform:translateX(0); }
+.rep-detail { font-size:15px; font-weight:300; line-height:1.85; color:rgba(250,250,248,0.65); max-width:440px; opacity:0; transform:translateX(20px); transition:opacity 0.65s 0.9s ease,transform 0.65s 0.9s ease; }
+.cream .rep-detail { color:rgba(8,8,8,0.6); }
+.active .rep-detail { opacity:1; transform:translateX(0); }
 
-/* ════════════════════════════════════════════
-   S7 — ESQUEMA REPUTACIÓN
-════════════════════════════════════════════ */
-#s7 .schema-wrap {
-  width: 100%; max-width: 1160px; padding: 0 80px;
-  display: flex; flex-direction: column; gap: 40px;
-}
-#s7 .schema-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(30px, 4vw, 52px); font-weight: 300; line-height: 1.1;
-  opacity: 0; transform: translateY(18px);
-  transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
-}
-#s7.active .schema-title { opacity: 1; transform: translateY(0); }
-.schema-grid { display: flex; gap: 0; border-top: 1px solid rgba(179,163,105,0.15); }
-.schema-col {
-  flex: 1; padding: 24px 16px 24px 0;
-  border-right: 1px solid rgba(179,163,105,0.1);
-  display: flex; flex-direction: column; gap: 10px;
-  opacity: 0; transform: translateY(20px);
-}
-.schema-col:last-child { border-right: none; padding-right: 0; }
-.schema-col.vis { opacity: 1; transform: translateY(0); }
-.schema-col:nth-child(1){transition:opacity 0.5s 0s,transform 0.5s 0s ease;}
-.schema-col:nth-child(2){transition:opacity 0.5s 0.12s,transform 0.5s 0.12s ease;}
-.schema-col:nth-child(3){transition:opacity 0.5s 0.24s,transform 0.5s 0.24s ease;}
-.schema-col:nth-child(4){transition:opacity 0.5s 0.36s,transform 0.5s 0.36s ease;}
-.schema-col:nth-child(5){transition:opacity 0.5s 0.48s,transform 0.5s 0.48s ease;}
-.sc-icon { width: 28px; height: 28px; margin-bottom: 4px; opacity: 0.55; }
-.sc-num { font-size: 9px; font-weight: 600; letter-spacing: 0.3em; color: var(--gold); }
-.sc-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(16px, 1.8vw, 22px); font-weight: 500; line-height: 1.15; color: var(--white);
-}
-.sc-items { font-size: 10px; font-weight: 300; line-height: 1.7; color: rgba(250,250,248,0.45); }
-.schema-axis {
-  display: flex; align-items: center; gap: 16px;
-  font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(179,163,105,0.45); opacity: 0; transition: opacity 0.6s 0.6s ease;
-}
-#s7.active .schema-axis { opacity: 1; }
-.axis-rule {
-  flex: 1; height: 3px;
-  background: linear-gradient(90deg,rgba(179,163,105,0.9) 0%,rgba(179,163,105,0.6) 30%,rgba(179,163,105,0.2) 70%,rgba(179,163,105,0.05) 100%);
-  border-radius: 2px;
-}
+/* ── S7 ESQUEMA ─────────────────────────── */
+#s7 .schema-wrap { width:100%; max-width:1160px; padding:0 80px; display:flex; flex-direction:column; gap:40px; }
+#s7 .schema-title { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,4vw,52px); font-weight:300; line-height:1.1; opacity:0; transform:translateY(18px); transition:opacity 0.7s 0.1s ease,transform 0.7s 0.1s ease; }
+#s7.active .schema-title { opacity:1; transform:translateY(0); }
+.schema-grid { display:flex; gap:0; border-top:1px solid rgba(179,163,105,0.15); }
+.schema-col { flex:1; padding:24px 16px 24px 0; border-right:1px solid rgba(179,163,105,0.1); display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(20px); }
+.schema-col:last-child { border-right:none; padding-right:0; }
+.schema-col.vis { opacity:1; transform:translateY(0); }
+.schema-col:nth-child(1){transition:opacity 0.5s 0s ease,transform 0.5s 0s ease;}
+.schema-col:nth-child(2){transition:opacity 0.5s 0.12s ease,transform 0.5s 0.12s ease;}
+.schema-col:nth-child(3){transition:opacity 0.5s 0.24s ease,transform 0.5s 0.24s ease;}
+.schema-col:nth-child(4){transition:opacity 0.5s 0.36s ease,transform 0.5s 0.36s ease;}
+.schema-col:nth-child(5){transition:opacity 0.5s 0.48s ease,transform 0.5s 0.48s ease;}
+.sc-icon { width:28px; height:28px; margin-bottom:4px; opacity:0.55; }
+.sc-num { font-size:9px; font-weight:600; letter-spacing:0.3em; color:var(--gold); }
+.sc-name { font-family:'Cormorant Garamond',serif; font-size:clamp(16px,1.8vw,22px); font-weight:500; line-height:1.15; color:var(--white); }
+.sc-items { font-size:10px; font-weight:300; line-height:1.7; color:rgba(250,250,248,0.45); }
+.schema-axis { display:flex; align-items:center; gap:16px; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.45); opacity:0; transition:opacity 0.6s 0.6s ease; }
+#s7.active .schema-axis { opacity:1; }
+.axis-rule { flex:1; height:3px; background:linear-gradient(90deg,rgba(179,163,105,0.9) 0%,rgba(179,163,105,0.6) 30%,rgba(179,163,105,0.2) 70%,rgba(179,163,105,0.05) 100%); border-radius:2px; }
 
-/* ════════════════════════════════════════════
-   S8 — HBR
-════════════════════════════════════════════ */
-#s8 .s8-inner {
-  width: 100%; max-width: 1100px; padding: 0 100px;
-  display: flex; flex-direction: column; gap: 32px;
-}
-.hbr-logo-wrap {
-  height: 52px; display: flex; align-items: center;
-  opacity: 0; transform: translateY(10px);
-  transition: opacity 0.5s 0.1s ease, transform 0.5s 0.1s ease;
-}
-.active .hbr-logo-wrap { opacity: 1; transform: translateY(0); }
-.hbr-logo-wrap img { height: 52px; width: auto; mix-blend-mode: screen; opacity: 0.85; }
-.hbr-quote {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
-  font-size: clamp(26px, 3.6vw, 52px); line-height: 1.15; color: var(--gold-light); max-width: 860px;
-}
-.hbr-body { font-size: 13px; font-weight: 300; line-height: 1.9; color: rgba(250,250,248,0.6); max-width: 620px; }
+/* ── S8 HBR ─────────────────────────────── */
+#s8 .s8-inner { width:100%; max-width:1100px; padding:0 100px; display:flex; flex-direction:column; gap:32px; }
+.hbr-logo-wrap { height:52px; display:flex; align-items:center; opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
+.active .hbr-logo-wrap { opacity:1; transform:translateY(0); }
+.hbr-logo-wrap img { height:52px; width:auto; mix-blend-mode:screen; opacity:0.85; }
+.hbr-quote { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(26px,3.6vw,52px); line-height:1.15; color:var(--gold-light); max-width:860px; }
+.hbr-body { font-size:13px; font-weight:300; line-height:1.9; color:rgba(250,250,248,0.6); max-width:620px; }
 
-/* ════════════════════════════════════════════
-   S9–S12 — VERTIENTES CON IMAGEN
-════════════════════════════════════════════ */
-.vertiente-slide .vt-inner {
-  width: 100%; max-width: 1200px; padding: 0 80px;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 64px; align-items: center;
-}
-.vt-text { display: flex; flex-direction: column; gap: 24px; position: relative; }
-.v-ghost {
-  font-family: 'Cormorant Garamond', serif; font-weight: 300;
-  font-size: clamp(90px, 13vw, 170px); line-height: 0.8; color: var(--gold);
-  opacity: 0.07; position: absolute; right: -20px; top: 50%;
-  transform: translateY(-50%); pointer-events: none;
-}
-.cream .v-ghost { color: rgba(8,8,8,0.06); }
-.v-name {
-  font-family: 'Cormorant Garamond', serif; font-weight: 500;
-  font-size: clamp(38px, 5.5vw, 78px); line-height: 0.95;
-}
-.v-body { font-size: 13px; font-weight: 300; line-height: 1.85; max-width: 480px; color: rgba(250,250,248,0.65); }
-.cream .v-body { color: rgba(8,8,8,0.6); }
-.vt-image {
-  aspect-ratio: 4/3; overflow: hidden;
-  opacity: 0; transform: translateX(24px);
-  transition: opacity 0.7s 0.5s ease, transform 0.7s 0.5s ease;
-}
-.active .vt-image { opacity: 1; transform: translateX(0); }
-.vt-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%) brightness(0.9); }
-.vt-placeholder {
-  width: 100%; height: 100%;
-  background: rgba(179,163,105,0.05); border: 1px dashed rgba(179,163,105,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(179,163,105,0.25);
-}
+/* ── S9–S12 VERTIENTES CON IMAGEN ───────── */
+.vertiente-slide .vt-inner { width:100%; max-width:1200px; padding:0 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+.vt-text { display:flex; flex-direction:column; gap:24px; position:relative; }
+.v-ghost { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(90px,13vw,170px); line-height:0.8; color:var(--gold); opacity:0.07; position:absolute; right:-20px; top:50%; transform:translateY(-50%); pointer-events:none; }
+.cream .v-ghost { color:rgba(8,8,8,0.06); }
+.v-name { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(38px,5.5vw,78px); line-height:0.95; }
+.v-body { font-size:13px; font-weight:300; line-height:1.85; max-width:480px; color:rgba(250,250,248,0.65); }
+.cream .v-body { color:rgba(8,8,8,0.6); }
+.vt-image { aspect-ratio:4/3; overflow:hidden; opacity:0; transform:translateX(24px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; }
+.active .vt-image { opacity:1; transform:translateX(0); }
+.vt-image img { width:100%; height:100%; object-fit:cover; filter:grayscale(15%) brightness(0.9); }
+.vt-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
-/* ════════════════════════════════════════════
-   S9b–S12b — EJEMPLOS POR VERTIENTE
-════════════════════════════════════════════ */
-.ejemplos-slide { background: var(--black); align-items: flex-start; }
-.cream.ejemplos-slide { background: var(--cream); }
-.ejemplos-slide .ej-inner {
-  width: 100%; max-width: 1160px; padding: 72px 100px 0;
-  display: flex; flex-direction: column; gap: 36px;
-}
-.ej-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 0; border-top: 1px solid rgba(179,163,105,0.15);
-}
-.ej-col {
-  padding: 28px 28px 0 0; border-right: 1px solid rgba(179,163,105,0.1);
-  display: flex; flex-direction: column; gap: 12px;
-  opacity: 0; transform: translateY(18px);
-}
-.ej-col:last-child { border-right: none; padding-right: 0; }
-.cream .ej-col { border-right-color: rgba(8,8,8,0.08); }
-.ej-col:nth-child(1){transition: opacity 0.6s 0.25s ease, transform 0.6s 0.25s ease;}
-.ej-col:nth-child(2){transition: opacity 0.6s 0.42s ease, transform 0.6s 0.42s ease;}
-.ej-col:nth-child(3){transition: opacity 0.6s 0.59s ease, transform 0.6s 0.59s ease;}
-.ejemplos-slide.active .ej-col { opacity:1; transform:translateY(0); }
-.ej-num { font-size: 9px; font-weight: 600; letter-spacing: 0.3em; color: var(--gold); }
-.cream .ej-num { color: #8B7D4A; }
-.ej-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(20px, 2.4vw, 30px); font-weight: 500; line-height: 1.1;
-}
-.ej-tag {
-  font-size: 8px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(179,163,105,0.5);
-}
-.cream .ej-tag { color: rgba(8,8,8,0.35); }
-.ej-body { font-size: 11px; font-weight: 300; line-height: 1.8; color: rgba(250,250,248,0.55); }
-.cream .ej-body { color: rgba(8,8,8,0.55); }
-.ej-result {
-  font-size: 11px; font-weight: 400; line-height: 1.7; color: rgba(179,163,105,0.7);
-  border-top: 1px solid rgba(179,163,105,0.12); padding-top: 10px; margin-top: 4px;
-  font-style: italic;
-}
-.cream .ej-result { color: #8B7D4A; border-top-color: rgba(8,8,8,0.08); }
+/* ── SLIDES DE EJEMPLO (un caso por slide) ── */
+.ejemplo-slide { background:var(--black); align-items:flex-start; }
+.cream.ejemplo-slide { background:var(--cream); }
+.ejemplo-slide .ej-inner { width:100%; max-width:1200px; padding:0 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+.ej-text { display:flex; flex-direction:column; gap:20px; }
+.ej-eyebrow { font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
+.cream .ej-eyebrow { color:#8B7D4A; }
+.active .ej-eyebrow { opacity:1; transform:translateY(0); }
+.ej-tag { font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(179,163,105,0.5); }
+.cream .ej-tag { color:rgba(8,8,8,0.35); }
+.ej-name { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,4.5vw,60px); font-weight:500; line-height:0.95; }
+.ej-divider { width:44px; height:1px; background:var(--gold); opacity:0; transform:scaleX(0); transform-origin:left; transition:opacity 0.45s 0.52s,transform 0.45s 0.52s ease; }
+.cream .ej-divider { background:#8B7D4A; }
+.active .ej-divider { opacity:1; transform:scaleX(1); }
+.ej-body { font-size:12px; font-weight:300; line-height:1.85; color:rgba(250,250,248,0.6); }
+.cream .ej-body { color:rgba(8,8,8,0.55); }
+.ej-result { font-size:12px; font-weight:400; line-height:1.75; color:rgba(179,163,105,0.8); border-left:2px solid rgba(179,163,105,0.3); padding-left:16px; font-style:italic; }
+.cream .ej-result { color:#8B7D4A; border-left-color:rgba(8,8,8,0.15); }
+.ej-image { aspect-ratio:4/3; overflow:hidden; opacity:0; transform:translateX(24px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; }
+.active .ej-image { opacity:1; transform:translateX(0); }
+.ej-image img { width:100%; height:100%; object-fit:cover; }
+.ej-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
-/* ════════════════════════════════════════════
-   S12b — VUCA (antes de contexto externo)
-════════════════════════════════════════════ */
-#svuca {
-  background: var(--black);
-  flex-direction: column; align-items: center; justify-content: center;
-}
-.vuca-wrap {
-  width: 100%; max-width: 1160px; padding: 0 80px;
-  display: flex; flex-direction: column; gap: 52px; align-items: flex-start;
-}
-.vuca-letters {
-  display: flex; gap: 48px; align-items: flex-end;
-}
-.vuca-letter-block {
-  display: flex; flex-direction: column; gap: 8px;
-  opacity: 0; transform: translateY(30px);
-}
-.vuca-letter-block:nth-child(1){transition: opacity 0.6s 0.2s ease, transform 0.6s 0.2s ease;}
-.vuca-letter-block:nth-child(2){transition: opacity 0.6s 0.4s ease, transform 0.6s 0.4s ease;}
-.vuca-letter-block:nth-child(3){transition: opacity 0.6s 0.6s ease, transform 0.6s 0.6s ease;}
-.vuca-letter-block:nth-child(4){transition: opacity 0.6s 0.8s ease, transform 0.6s 0.8s ease;}
+/* ── VUCA ───────────────────────────────── */
+#svuca { background:var(--black); flex-direction:column; align-items:center; justify-content:center; }
+#svuca .vuca-wrap { width:100%; max-width:1160px; padding:0 80px; display:flex; flex-direction:column; gap:52px; align-items:flex-start; }
+.vuca-letters { display:flex; gap:48px; align-items:flex-end; }
+.vuca-letter-block { display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateY(30px); }
+.vuca-letter-block:nth-child(1){transition:opacity 0.6s 0.2s ease,transform 0.6s 0.2s ease;}
+.vuca-letter-block:nth-child(2){transition:opacity 0.6s 0.4s ease,transform 0.6s 0.4s ease;}
+.vuca-letter-block:nth-child(3){transition:opacity 0.6s 0.6s ease,transform 0.6s 0.6s ease;}
+.vuca-letter-block:nth-child(4){transition:opacity 0.6s 0.8s ease,transform 0.6s 0.8s ease;}
 #svuca.active .vuca-letter-block { opacity:1; transform:translateY(0); }
-.vuca-big {
-  font-family: 'Cormorant Garamond', serif; font-weight: 300;
-  font-size: clamp(80px, 12vw, 160px); line-height: 0.85; color: var(--gold);
-}
-.vuca-word {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
-  color: rgba(250,250,248,0.4);
-}
-.vuca-bottom {
-  display: flex; flex-direction: column; gap: 20px;
-  opacity: 0; transform: translateY(16px);
-  transition: opacity 0.7s 1.1s ease, transform 0.7s 1.1s ease;
-}
+.vuca-big { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(80px,12vw,160px); line-height:0.85; color:var(--gold); }
+.vuca-word { font-size:10px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:rgba(250,250,248,0.4); }
+.vuca-bottom { display:flex; flex-direction:column; gap:20px; opacity:0; transform:translateY(16px); transition:opacity 0.7s 1.1s ease,transform 0.7s 1.1s ease; }
 #svuca.active .vuca-bottom { opacity:1; transform:translateY(0); }
-.vuca-separator { width: 48px; height: 1px; background: var(--gold); opacity: 0.4; }
-.vuca-close {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
-  font-size: clamp(18px, 2.2vw, 30px); line-height: 1.35; color: rgba(250,250,248,0.65);
-  max-width: 760px;
-}
+.vuca-sep { width:48px; height:1px; background:var(--gold); opacity:0.4; }
+.vuca-close { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(18px,2.2vw,30px); line-height:1.35; color:rgba(250,250,248,0.65); max-width:760px; }
 
-/* ════════════════════════════════════════════
-   S13 — CONTEXTO EXTERNO
-════════════════════════════════════════════ */
-#s13 { background: #060606; }
-#s13 .ctx-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.15) saturate(0.2); }
-#s13 .ctx-inner {
-  position: relative; z-index: 2;
-  width: 100%; max-width: 1160px; padding: 0 80px;
-  display: flex; flex-direction: column; gap: 36px;
-}
-.ctx-top { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-.neg-row { display: flex; gap: 40px; }
-.neg-block { display: flex; flex-direction: column; gap: 8px; opacity: 0; transform: translateY(18px); }
+/* ── S13 CONTEXTO ───────────────────────── */
+#s13 { background:#060606; }
+#s13 .ctx-bg { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(0.15) saturate(0.2); }
+#s13 .ctx-inner { position:relative; z-index:2; width:100%; max-width:1160px; padding:0 80px; display:flex; flex-direction:column; gap:36px; }
+.ctx-top { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+.neg-row { display:flex; gap:40px; }
+.neg-block { display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateY(18px); }
 .neg-block:nth-child(1){transition:opacity 0.6s 0.3s ease,transform 0.6s 0.3s ease;}
 .neg-block:nth-child(2){transition:opacity 0.6s 0.52s ease,transform 0.6s 0.52s ease;}
 .neg-block:nth-child(3){transition:opacity 0.6s 0.74s ease,transform 0.6s 0.74s ease;}
 #s13.active .neg-block { opacity:1; transform:translateY(0); }
 .neg-fig { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(44px,6vw,80px); line-height:0.9; color:#E74C3C; }
 .neg-desc { font-size:10px; font-weight:300; letter-spacing:0.06em; line-height:1.6; color:rgba(250,250,248,0.45); max-width:130px; }
-.ctx-fotos {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
-  opacity: 0; transform: translateX(20px);
-  transition: opacity 0.7s 0.5s ease, transform 0.7s 0.5s ease;
-}
+.ctx-fotos { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; opacity:0; transform:translateX(20px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; }
 #s13.active .ctx-fotos { opacity:1; transform:translateX(0); }
-.ctx-foto { aspect-ratio: 4/3; overflow: hidden; }
+.ctx-foto { aspect-ratio:4/3; overflow:hidden; }
 .ctx-foto img { width:100%; height:100%; object-fit:cover; filter:grayscale(30%) brightness(0.7); }
 .ctx-foto-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.15); display:flex; align-items:center; justify-content:center; font-size:8px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 .mundial-row { border-left:2px solid var(--green); padding-left:24px; opacity:0; transform:translateX(-16px); transition:opacity 0.7s 0.9s ease,transform 0.7s 0.9s ease; }
@@ -393,39 +186,24 @@ html, body {
 .ctx-close { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(18px,2.2vw,28px); line-height:1.3; color:var(--white); max-width:720px; opacity:0; transform:translateY(12px); transition:opacity 0.8s 1.3s ease,transform 0.8s 1.3s ease; }
 #s13.active .ctx-close { opacity:1; transform:translateY(0); }
 
-/* ════════════════════════════════════════════
-   S14a/b/c — DIAGNÓSTICO CON IMAGEN
-════════════════════════════════════════════ */
-.diag-slide { background: var(--black); align-items: flex-start; }
-.diag-slide .d-inner {
-  width: 100%; max-width: 1200px; padding: 80px 80px 0;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
-}
-.diag-text { display: flex; flex-direction: column; gap: 20px; }
+/* ── S14 DIAGNÓSTICO ────────────────────── */
+.diag-slide { background:var(--black); align-items:flex-start; }
+.diag-slide .d-inner { width:100%; max-width:1200px; padding:80px 80px 0; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+.diag-text { display:flex; flex-direction:column; gap:20px; }
 .diag-tag { font-size:9px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); }
-.diag-headline { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:400; font-size:clamp(22px,2.8vw,36px); line-height:1.15; max-width:540px; }
+.diag-headline { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:400; font-size:clamp(22px,2.8vw,36px); line-height:1.15; }
 .diag-sep { height:1px; background:rgba(179,163,105,0.15); }
 .diag-body { font-size:12px; font-weight:300; line-height:1.85; color:rgba(250,250,248,0.6); }
 .bench-box { padding:24px 28px; border:1px solid rgba(179,163,105,0.18); display:flex; flex-direction:column; gap:10px; }
 .bench-tag { font-size:9px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); }
 .bench-body { font-size:12px; font-weight:300; line-height:1.8; color:rgba(250,250,248,0.5); }
-.diag-image {
-  aspect-ratio: 4/3; overflow: hidden;
-  opacity:0; transform:translateX(24px);
-  transition: opacity 0.7s 0.5s ease, transform 0.7s 0.5s ease;
-  align-self: start; margin-top: 40px;
-}
+.diag-image { aspect-ratio:4/3; overflow:hidden; opacity:0; transform:translateX(24px); transition:opacity 0.7s 0.5s ease,transform 0.7s 0.5s ease; align-self:start; margin-top:40px; }
 .active .diag-image { opacity:1; transform:translateX(0); }
 .diag-image img { width:100%; height:100%; object-fit:cover; filter:grayscale(20%) brightness(0.85); }
 .diag-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
 
-/* ════════════════════════════════════════════
-   S15–S20 — RETOS CON IMAGEN
-════════════════════════════════════════════ */
-.reto-slide .reto-wrap {
-  width: 100%; max-width: 1200px; padding: 0 80px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-}
+/* ── RETOS ──────────────────────────────── */
+.reto-slide .reto-wrap { width:100%; max-width:1200px; padding:0 80px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
 .reto-text { display:flex; flex-direction:column; gap:24px; position:relative; }
 .reto-ghost { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(90px,14vw,180px); line-height:0.8; color:var(--gold); opacity:0.07; position:absolute; right:-20px; top:50%; transform:translateY(-50%); pointer-events:none; }
 .cream .reto-ghost { color:rgba(8,8,8,0.06); }
@@ -445,18 +223,12 @@ html, body {
 #s20.active .reto-video { opacity:1; transform:translateX(0); }
 .reto-video iframe { width:100%; height:100%; border:none; }
 
-/* ════════════════════════════════════════════
-   S22 — MARCO ESTRATÉGICO (rediseño)
-════════════════════════════════════════════ */
-.marco-slide { background: var(--black); align-items: flex-start; }
+/* ── MARCO ESTRATÉGICO ──────────────────── */
+.marco-slide { background:var(--black); align-items:flex-start; }
 .marco-slide .m-inner { width:100%; max-width:1160px; padding:72px 100px 0; display:flex; flex-direction:column; gap:32px; }
 .marco-intro { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(15px,1.8vw,22px); line-height:1.5; color:rgba(250,250,248,0.65); max-width:900px; border-left:2px solid rgba(179,163,105,0.4); padding-left:24px; }
 .marco-lineas { display:flex; flex-direction:column; gap:0; }
-.marco-linea {
-  display:grid; grid-template-columns:200px 1fr 1fr; gap:32px; align-items:start;
-  padding:28px 0; border-top:1px solid rgba(179,163,105,0.12);
-  opacity:0; transform:translateY(16px);
-}
+.marco-linea { display:grid; grid-template-columns:200px 1fr 1fr; gap:32px; align-items:start; padding:28px 0; border-top:1px solid rgba(179,163,105,0.12); opacity:0; transform:translateY(16px); }
 .marco-linea:nth-child(1){transition:opacity 0.7s 0.25s ease,transform 0.7s 0.25s ease;}
 .marco-linea:nth-child(2){transition:opacity 0.7s 0.42s ease,transform 0.7s 0.42s ease;}
 .marco-linea:nth-child(3){transition:opacity 0.7s 0.59s ease,transform 0.7s 0.59s ease;}
@@ -465,29 +237,19 @@ html, body {
 .marco-linea-tag { font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
 .marco-linea-obj { font-size:11px; font-weight:300; line-height:1.8; color:rgba(250,250,248,0.55); }
 .marco-linea-imp { font-size:11px; font-weight:300; line-height:1.8; color:rgba(179,163,105,0.65); }
-
-/* ════════════════════════════════════════════
-   S23 — COMUNICACIÓN INTERNA (rediseño)
-════════════════════════════════════════════ */
 .ci-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid rgba(179,163,105,0.15); margin-top:8px; }
 .ci-col { padding:28px 40px 28px 0; border-right:1px solid rgba(179,163,105,0.1); display:flex; flex-direction:column; gap:12px; opacity:0; transform:translateY(18px); }
 .ci-col:last-child { border-right:none; padding-right:0; }
 .ci-col:nth-child(1){transition:opacity 0.6s 0.3s ease,transform 0.6s 0.3s ease;}
 .ci-col:nth-child(2){transition:opacity 0.6s 0.52s ease,transform 0.6s 0.52s ease;}
 .marco-slide.active .ci-col { opacity:1; transform:translateY(0); }
-.ci-badge {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:6px 14px; border:1px solid rgba(179,163,105,0.25);
-  width:fit-content;
-}
+.ci-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border:1px solid rgba(179,163,105,0.25); width:fit-content; }
 .ci-badge-text { font-size:8px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
 .ci-name { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,2.8vw,36px); font-weight:500; line-height:1.1; }
 .ci-subtitle { font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(179,163,105,0.55); }
 .ci-body { font-size:11px; font-weight:300; line-height:1.8; color:rgba(250,250,248,0.55); }
 
-/* ════════════════════════════════════════════
-   S24/S24b/S24c — RESULTADOS
-════════════════════════════════════════════ */
+/* ── RESULTADOS ─────────────────────────── */
 .res-slide { background:var(--black); align-items:flex-start; }
 .res-slide .r-inner { width:100%; max-width:1160px; padding:72px 100px 0; display:flex; flex-direction:column; gap:0; }
 .res-intro { font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300; font-size:clamp(14px,1.6vw,18px); color:rgba(250,250,248,0.45); margin-bottom:20px; }
@@ -495,8 +257,6 @@ html, body {
 .res-block { padding:22px 0; border-top:1px solid rgba(179,163,105,0.12); display:flex; flex-direction:column; gap:14px; opacity:0; transform:translateY(14px); }
 .res-block:nth-child(1){transition:opacity 0.6s 0.2s ease,transform 0.6s 0.2s ease;}
 .res-block:nth-child(2){transition:opacity 0.6s 0.38s ease,transform 0.6s 0.38s ease;}
-.res-block:nth-child(3){transition:opacity 0.6s 0.56s ease,transform 0.6s 0.56s ease;}
-.res-block:nth-child(4){transition:opacity 0.6s 0.74s ease,transform 0.6s 0.74s ease;}
 .res-slide.active .res-block { opacity:1; transform:translateY(0); }
 .res-block-title { font-family:'Cormorant Garamond',serif; font-size:clamp(18px,2.2vw,28px); font-weight:500; line-height:1.1; }
 .res-bullets { display:flex; flex-direction:column; gap:10px; }
@@ -506,14 +266,8 @@ html, body {
 .res-slide.active .res-kft-image { opacity:1; transform:translateX(0); }
 .res-kft-image img { width:100%; border:1px solid rgba(179,163,105,0.15); }
 .res-img-ph { width:100%; aspect-ratio:3/4; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
-
-/* S24b / S24c — dos momentos con imagen propia */
 .res-moment-grid { display:flex; flex-direction:column; gap:0; }
-.res-moment-row {
-  display:grid; grid-template-columns:1fr 280px; gap:36px; align-items:start;
-  padding:24px 0; border-top:1px solid rgba(179,163,105,0.12);
-  opacity:0; transform:translateY(14px);
-}
+.res-moment-row { display:grid; grid-template-columns:1fr 280px; gap:36px; align-items:start; padding:24px 0; border-top:1px solid rgba(179,163,105,0.12); opacity:0; transform:translateY(14px); }
 .res-moment-row:nth-child(1){transition:opacity 0.6s 0.2s ease,transform 0.6s 0.2s ease;}
 .res-moment-row:nth-child(2){transition:opacity 0.6s 0.5s ease,transform 0.6s 0.5s ease;}
 .res-slide.active .res-moment-row { opacity:1; transform:translateY(0); }
@@ -521,12 +275,8 @@ html, body {
 .res-moment-img { aspect-ratio:16/9; overflow:hidden; }
 .res-moment-img img { width:100%; height:100%; object-fit:cover; border:1px solid rgba(179,163,105,0.15); }
 .res-moment-ph { width:100%; height:100%; background:rgba(179,163,105,0.05); border:1px dashed rgba(179,163,105,0.2); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(179,163,105,0.25); }
-.res-moment-video { aspect-ratio:16/9; border:1px solid rgba(179,163,105,0.18); }
-.res-moment-video iframe { width:100%; height:100%; border:none; }
 
-/* ════════════════════════════════════════════
-   S25 — CIERRE
-════════════════════════════════════════════ */
+/* ── CIERRE ─────────────────────────────── */
 #s25 { background:var(--black); align-items:flex-start; }
 #s25 .c-inner { width:100%; max-width:1100px; padding:72px 100px 0; display:flex; flex-direction:column; gap:0; }
 .cierre-headline { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(42px,5.5vw,78px); line-height:1.05; color:var(--white); margin-bottom:48px; opacity:0; transform:translateY(24px); transition:opacity 0.9s 0.2s ease,transform 0.9s 0.2s ease; }
@@ -543,9 +293,7 @@ html, body {
 .cierre-firmas { margin-top:40px; padding-top:24px; border-top:1px solid rgba(179,163,105,0.12); font-size:10px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:rgba(179,163,105,0.35); opacity:0; transition:opacity 0.6s 1.2s ease; }
 #s25.active .cierre-firmas { opacity:1; }
 
-/* ════════════════════════════════════════════
-   S26 — LÍNEA DE TIEMPO
-════════════════════════════════════════════ */
+/* ── LÍNEA DE TIEMPO ────────────────────── */
 #s26 { background:var(--black); flex-direction:column; }
 #s26 .tl-wrap { width:100%; max-width:1160px; padding:0 80px; display:flex; flex-direction:column; gap:48px; }
 #s26 .tl-title { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(28px,3.5vw,48px); line-height:1.1; opacity:0; transform:translateY(16px); transition:opacity 0.7s 0.1s ease,transform 0.7s 0.1s ease; }
@@ -564,7 +312,7 @@ html, body {
 .tl-item:nth-child(6){transition:opacity 0.5s 1.25s ease,transform 0.5s 1.25s ease;}
 #s26.active .tl-item { opacity:1; transform:translateY(0); }
 .tl-dot { width:14px; height:14px; border-radius:50%; background:var(--black); border:2px solid var(--gold); transition:background 0.3s,transform 0.3s; flex-shrink:0; }
-.tl-item.active-item .tl-dot, .tl-item:hover .tl-dot { background:var(--gold); transform:scale(1.5); }
+.tl-item.active-item .tl-dot,.tl-item:hover .tl-dot { background:var(--gold); transform:scale(1.5); }
 .tl-date { font-size:8px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:rgba(179,163,105,0.45); text-align:center; }
 .tl-label { font-family:'Cormorant Garamond',serif; font-size:clamp(12px,1.4vw,16px); font-weight:500; line-height:1.2; text-align:center; color:var(--white); max-width:100px; }
 .tl-detail { padding:24px 28px; border:1px solid rgba(179,163,105,0.2); background:rgba(179,163,105,0.04); display:none; flex-direction:column; gap:10px; animation:fadeInUp 0.4s ease; }
@@ -575,21 +323,11 @@ html, body {
 .tl-hint { font-size:8px; font-weight:500; letter-spacing:0.25em; text-transform:uppercase; color:rgba(179,163,105,0.3); text-align:center; opacity:0; transition:opacity 0.5s 1.5s ease; }
 #s26.active .tl-hint { opacity:1; }
 
-/* ════════════════════════════════════════════
-   S27 — OBAMA VIDEO FINAL
-════════════════════════════════════════════ */
+/* ── OBAMA ──────────────────────────────── */
 #s27 { background:var(--black); align-items:center; justify-content:center; flex-direction:column; gap:48px; }
-#s27 .obama-label {
-  font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold);
-  opacity:0; transition:opacity 0.5s 0.1s ease;
-}
+#s27 .obama-label { font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0; transition:opacity 0.5s 0.1s ease; }
 #s27.active .obama-label { opacity:1; }
-#s27 .obama-video-wrap {
-  width:100%; max-width:900px; aspect-ratio:16/9;
-  border:1px solid rgba(179,163,105,0.2);
-  opacity:0; transform:translateY(24px);
-  transition:opacity 0.8s 0.4s ease,transform 0.8s 0.4s ease;
-}
+#s27 .obama-video-wrap { width:100%; max-width:900px; aspect-ratio:16/9; border:1px solid rgba(179,163,105,0.2); opacity:0; transform:translateY(24px); transition:opacity 0.8s 0.4s ease,transform 0.8s 0.4s ease; }
 #s27.active .obama-video-wrap { opacity:1; transform:translateY(0); }
 #s27 .obama-video-wrap iframe { width:100%; height:100%; border:none; }
 
@@ -608,7 +346,7 @@ html, body {
 
 <!-- ═══════════════════ ACTO II ═══════════════════ -->
 
-<!-- S2 — TRANSICIÓN -->
+<!-- S2 -->
 <div class="slide" id="s2">
   <div class="question">¿Quién construye<br>esa reputación?</div>
 </div>
@@ -701,9 +439,7 @@ html, body {
 <!-- S8 — HBR -->
 <div class="slide" id="s8">
   <div class="s8-inner">
-    <div class="hbr-logo-wrap">
-      <img src="img/hbr_logo.png" alt="Harvard Business Review" />
-    </div>
+    <div class="hbr-logo-wrap"><img src="img/hbr_logo.png" alt="Harvard Business Review"></div>
     <div class="hbr-quote fu-0">"El área de comunicación traduce la estrategia de negocio en confianza pública, convirtiendo la identidad de la empresa en su ventaja competitiva más duradera."</div>
     <div class="hbr-body fu-1">La comunicación actúa como el eje integrador de todas las narrativas de la organización. Funciona como el paraguas que articula la identidad en todos sus frentes: desde el compromiso de los equipos y la conexión auténtica con la marca, hasta la credibilidad institucional y la prevención de riesgos.</div>
   </div>
@@ -720,37 +456,24 @@ html, body {
       <div class="v-body fu-1">Construye y protege la credibilidad ante autoridades, aliados e inversores. Gestiona nuestra licencia social para operar, garantizando que el entorno institucional perciba el impacto positivo de nuestras decisiones.</div>
     </div>
     <div class="vt-image">
-      <img src="img/v_corporativa.jpg" alt="Comunicación Corporativa" onerror="this.parentElement.innerHTML='<div class=\'vt-placeholder\'>img/v_corporativa.jpg</div>'">
+      <img src="img/v_corporativa.jpg" alt="Comunicación Corporativa" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_corporativa.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- S9b — EJEMPLOS CORPORATIVA -->
-<div class="slide ejemplos-slide" id="s9b">
+<!-- S9b — EJEMPLO CORPORATIVA: BLACKSTONE -->
+<div class="slide ejemplo-slide" id="s9b">
   <div class="ej-inner">
-    <div class="eyebrow fu-0">Comunicación Corporativa — casos de referencia</div>
-    <div class="ej-grid">
-      <div class="ej-col">
-        <div class="ej-num">01</div>
-        <div class="ej-name">Blackstone<br>Real Estate</div>
-        <div class="ej-tag">Real Estate · Inversión institucional</div>
-        <div class="ej-body">El mayor gestor de activos inmobiliarios del mundo construyó su credibilidad institucional ante gobiernos, reguladores e inversores a través de comunicación estratégica muy controlada: cartas trimestrales, vocería selectiva en Davos y medios financieros tier 1, y una narrativa consistente de "valor a largo plazo".</div>
-        <div class="ej-result">Les permitió captar capital incluso en los peores momentos del mercado inmobiliario, porque la confianza institucional ya estaba construida.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">02</div>
-        <div class="ej-name">Mayakoba<br>RLH Properties</div>
-        <div class="ej-tag">Golf Resort · Real Estate · Caribe</div>
-        <div class="ej-body">Construyeron credibilidad institucional ante el gobierno mexicano, fondos internacionales y operadores de lujo mediante comunicación consistente que les permitió atraer a Four Seasons, Rosewood, Banyan Tree y Fairmont al mismo desarrollo en la Riviera Maya.</div>
-        <div class="ej-result">Hoy es el destino de golf y real estate más citado del Caribe mexicano. El benchmark más cercano a lo que TCC construye.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">03</div>
-        <div class="ej-name">Augusta National<br>The Masters</div>
-        <div class="ej-tag">Golf · Credibilidad institucional pura</div>
-        <div class="ej-body">Opera sin señalización de patrocinadores en el campo, sin conferencias de prensa, sin voceros públicos. Solo seis marcas en el mundo tienen el privilegio de asociarse, y pagan más de $6M al año. En 2003 eliminaron todos los patrocinadores del broadcast televisivo para proteger su reputación — y salieron más fuertes.</div>
-        <div class="ej-result">El caso más puro de credibilidad institucional construida con acciones, no con mensajes.</div>
-      </div>
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación Corporativa en acción</div>
+      <div class="ej-tag fu-0">Real Estate · Inversión institucional global</div>
+      <div class="ej-name fu-1">Blackstone<br>Real Estate</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">El mayor gestor de activos inmobiliarios del mundo construyó su credibilidad institucional ante gobiernos, reguladores e inversores a través de comunicación estratégica muy controlada: cartas trimestrales a inversores, vocería selectiva de sus líderes en Davos y medios financieros tier 1, y una narrativa consistente de "valor a largo plazo" que nunca varía sin importar el ciclo del mercado.</div>
+      <div class="ej-result fu-3">Les permitió captar capital en los peores momentos del mercado inmobiliario. La confianza institucional ya estaba construida antes de que se necesitara.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_blackstone.jpg" alt="Blackstone Real Estate" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_blackstone.jpg</div>'">
     </div>
   </div>
 </div>
@@ -766,37 +489,24 @@ html, body {
       <div class="v-body fu-1">Conecta con la audiencia correcta mediante la generación de interés orgánico. Centra su mensaje en el valor real que obtiene el usuario. A diferencia de la publicidad, no paga por la atención; se la gana mediante historias auténticas.</div>
     </div>
     <div class="vt-image">
-      <img src="img/v_marca.jpg" alt="Comunicación de Marca" onerror="this.parentElement.innerHTML='<div class=\'vt-placeholder\'>img/v_marca.jpg</div>'">
+      <img src="img/v_marca.jpg" alt="Comunicación de Marca" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_marca.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- S10b — EJEMPLOS MARCA -->
-<div class="slide cream ejemplos-slide" id="s10b">
+<!-- S10b — EJEMPLO MARCA: BANDON DUNES -->
+<div class="slide cream ejemplo-slide" id="s10b">
   <div class="ej-inner">
-    <div class="eyebrow fu-0">Comunicación de Marca — casos de referencia</div>
-    <div class="ej-grid">
-      <div class="ej-col">
-        <div class="ej-num">01</div>
-        <div class="ej-name">Bandon Dunes<br>Oregon</div>
-        <div class="ej-tag">Golf resort · Word of mouth · Sin publicidad</div>
-        <div class="ej-body">En 1999 Mike Keiser abrió un campo en una costa remota de Oregon sin un solo peso en publicidad. Su única estrategia: hacer el campo tan bueno que los golfistas no pudieran callarse. Necesitaba 12,000 rondas para sobrevivir el primer año. Terminó con 23,000 — todo por recomendación.</div>
-        <div class="ej-result">25 años después es el mejor destino de golf público del mundo y sigue sin publicidad pagada. La reputación construida desde la experiencia es el activo más difícil de replicar.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">02</div>
-        <div class="ej-name">Pebble Beach<br>California</div>
-        <div class="ej-tag">Golf · Destino · Eventos propios</div>
-        <div class="ej-body">Construyeron una marca que trasciende el golf mediante un calendario de eventos propios que genera cobertura todo el año: el AT&amp;T Pro-Am con celebrities en enero, el Concours d'Elegance de autos clásicos en agosto, el Food &amp; Wine festival en abril. Ninguno es solo de golf, pero todos posicionan Pebble Beach como destino de lujo ante audiencias distintas.</div>
-        <div class="ej-result">El único campo en el Robb Report entre las marcas más exclusivas de todos los tiempos. Vende tee times a $595 con lista de espera.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">03</div>
-        <div class="ej-name">Kiawah Island<br>South Carolina</div>
-        <div class="ej-tag">Golf · Real Estate · Torneos como motor</div>
-        <div class="ej-body">Comunidad residencial privada con campos de golf de campeonato que usa los grandes torneos como motor de reputación y ventas. Sede del Ryder Cup 1991 y PGA Championship 2012 y 2021. Cada torneo posicionó la isla ante audiencias globales y disparó las ventas de real estate.</div>
-        <div class="ej-result">En 2021, año del PGA Championship, vendieron $1,000 millones en propiedades — un incremento del 299% respecto a 2019. El vínculo entre reputación de campo y ventas de real estate es cuantificable.</div>
-      </div>
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación de Marca en acción</div>
+      <div class="ej-tag fu-0">Golf resort · Oregon · Sin publicidad desde 1999</div>
+      <div class="ej-name fu-1">Bandon Dunes<br>Oregon</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">En 1999 Mike Keiser abrió un campo en una costa remota de Oregon sin un solo peso en publicidad. Su única estrategia: hacer el campo tan bueno que los golfistas no pudieran callarse. Necesitaba 12,000 rondas para sobrevivir el primer año. Terminó con 23,000 — todo por recomendación boca a boca entre golfistas serios que no podían dejar de hablar del lugar.</div>
+      <div class="ej-result fu-3">25 años después es el mejor destino de golf público del mundo y sigue sin publicidad pagada. La reputación construida desde la experiencia real es el activo más difícil de replicar.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_bandon.jpg" alt="Bandon Dunes Oregon" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_bandon.jpg</div>'">
     </div>
   </div>
 </div>
@@ -812,37 +522,24 @@ html, body {
       <div class="v-body fu-1">Desarrolla la cultura y el sentido de pertenencia. Asegura que los equipos comprendan el rumbo del negocio para que proyecten esa misma confianza hacia afuera. La reputación externa se sostiene, primero, sobre la convicción interna.</div>
     </div>
     <div class="vt-image">
-      <img src="img/v_interna.jpg" alt="Comunicación Interna" onerror="this.parentElement.innerHTML='<div class=\'vt-placeholder\'>img/v_interna.jpg</div>'">
+      <img src="img/v_interna.jpg" alt="Comunicación Interna" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_interna.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- S11b — EJEMPLOS INTERNA -->
-<div class="slide ejemplos-slide" id="s11b">
+<!-- S11b — EJEMPLO INTERNA: FOUR SEASONS THE GOLDEN RULE -->
+<div class="slide ejemplo-slide" id="s11b">
   <div class="ej-inner">
-    <div class="eyebrow fu-0">Comunicación Interna — casos de referencia</div>
-    <div class="ej-grid">
-      <div class="ej-col">
-        <div class="ej-num">01</div>
-        <div class="ej-name">Four Seasons<br>The Golden Rule</div>
-        <div class="ej-tag">Hospitalidad de lujo · Cultura interna</div>
-        <div class="ej-body">Su principio fundacional de comunicación interna es una sola frase: "Tratar a los demás como quisieras ser tratado." Cada colaborador la recibe desde el primer día y toda la comunicación interna, desde el onboarding hasta los protocolos de servicio, orbita alrededor de ese principio. No hay manual de servicio al cliente — hay una cultura instalada.</div>
-        <div class="ej-result">La cultura interna se convirtió en el activo de marca más valioso de la cadena. Sus empleados son los mejores embajadores externos porque primero creyeron el mensaje por dentro.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">02</div>
-        <div class="ej-name">Ritz-Carlton<br>Daily Lineup</div>
-        <div class="ej-tag">Hospitalidad de lujo · Rituales de comunicación</div>
-        <div class="ej-body">Cada turno en cualquier Ritz-Carlton del mundo comienza con un "Daily Lineup" de 15 minutos donde el equipo comparte una "Wow Story" — un ejemplo real de un colaborador que superó las expectativas de un huésped. La comunicación interna no es un newsletter: es un ritual diario que refuerza los valores con historias reales.</div>
-        <div class="ej-result">El sistema de comunicación interna es tan sólido que el Ritz-Carlton fue reconocido por el gobierno de EE.UU. como modelo de gestión empresarial y sus prácticas fueron adoptadas por hospitales y aerolíneas.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">03</div>
-        <div class="ej-name">Patagonia<br>Cultura de pertenencia</div>
-        <div class="ej-tag">Lifestyle brand · Orgullo interno</div>
-        <div class="ej-body">Instalan sentido de pertenencia con comunicación constante, cercana y replicable: surf reports en el canal interno para avisar cuando el mar está bueno, flexibilidad de horario documentada como beneficio real, historias humanas en todos sus canales internos. Los empleados no trabajan para Patagonia — sienten que forman parte de algo.</div>
-        <div class="ej-result">Sus colaboradores son los embajadores más auténticos de la marca. El orgullo interno se convierte automáticamente en reputación externa.</div>
-      </div>
+    <div class="ej-text">
+      <div class="ej-eyebrow">Comunicación Interna en acción</div>
+      <div class="ej-tag fu-0">Hospitalidad de lujo · Cultura organizacional</div>
+      <div class="ej-name fu-1">Four Seasons<br>The Golden Rule</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">Su principio fundacional de comunicación interna es una sola frase: tratar a los demás como quisieras ser tratado. Cada colaborador la recibe desde el primer día y toda la comunicación interna orbita alrededor de ese principio. No hay manual de servicio al cliente — hay una cultura instalada. En más de 100 hoteles y 30 países, el mensaje es siempre el mismo porque nació desde adentro.</div>
+      <div class="ej-result fu-3">La cultura interna se convirtió en el activo de marca más valioso de la cadena. Sus empleados son los mejores embajadores externos porque primero creyeron el mensaje por dentro.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_fourseasons.jpg" alt="Four Seasons The Golden Rule" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_fourseasons.jpg</div>'">
     </div>
   </div>
 </div>
@@ -858,65 +555,40 @@ html, body {
       <div class="v-body fu-1">Anticipa, monitoriza y neutraliza escenarios adversos. En periodos de incertidumbre, protege la identidad de la organización garantizando respuestas rápidas, claras y enfocadas siempre en la resolución para nuestra comunidad.</div>
     </div>
     <div class="vt-image">
-      <img src="img/v_crisis.jpg" alt="Gestión de Riesgos" onerror="this.parentElement.innerHTML='<div class=\'vt-placeholder\'>img/v_crisis.jpg</div>'">
+      <img src="img/v_crisis.jpg" alt="Gestión de Riesgos" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_crisis.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- S12b — EJEMPLOS CRISIS -->
-<div class="slide cream ejemplos-slide" id="s12b">
+<!-- S12b — EJEMPLO CRISIS: AEROMÉXICO VUELO 2431 -->
+<div class="slide cream ejemplo-slide" id="s12b">
   <div class="ej-inner">
-    <div class="eyebrow fu-0">Gestión de Riesgos — casos de referencia</div>
-    <div class="ej-grid">
-      <div class="ej-col">
-        <div class="ej-num">01</div>
-        <div class="ej-name">Johnson &amp; Johnson<br>Tylenol 1982</div>
-        <div class="ej-tag">El caso más citado de crisis bien manejada</div>
-        <div class="ej-body">Siete personas murieron tras consumir Tylenol envenenado. J&amp;J retiró 31 millones de botellas del mercado en 48 horas, el CEO apareció en televisión nacional a advertir a los consumidores y habilitaron una línea de atención directa. Sin excusas, sin silencio, sin esperar a tener todas las respuestas.</div>
-        <div class="ej-result">Tylenol recuperó el 100% de su participación de mercado en menos de un año. La respuesta transparente y rápida convirtió una crisis potencialmente terminal en un caso de estudio de confianza institucional.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">02</div>
-        <div class="ej-name">Four Seasons<br>durante COVID</div>
-        <div class="ej-tag">Hospitalidad de lujo · Crisis global</div>
-        <div class="ej-body">Mientras cerraban propiedades en todo el mundo, Four Seasons mantuvo su narrativa de lujo intacta mediante comunicación proactiva con huéspedes, colaboradores e inversores. Convirtieron varios de sus hoteles en hospitales temporales de forma gratuita — una decisión de comunicación corporativa que reforzó su reputación en el peor momento posible.</div>
-        <div class="ej-result">Salieron de la pandemia con listas de espera en sus principales propiedades. La coherencia entre lo que decían y lo que hacían protegió su posicionamiento de lujo.</div>
-      </div>
-      <div class="ej-col">
-        <div class="ej-num">03</div>
-        <div class="ej-name">Ritz-Carlton Cancún<br>Pandemia y seguridad</div>
-        <div class="ej-tag">Golf · Caribe · Entorno adverso</div>
-        <div class="ej-body">En un destino con narrativa mediática compleja — inseguridad, pandemia, sargazo — el Ritz-Carlton Cancún mantuvo su posicionamiento de lujo mediante comunicación proactiva y consistente hacia sus huéspedes de alto valor. No esperaron a que el entorno les definiera: construyeron su propia narrativa y la distribuyeron antes que el ruido.</div>
-        <div class="ej-result">Mantuvieron tasas de ocupación premium mientras competidores sin estrategia de comunicación propia quedaron expuestos al ruido del destino. El mismo reto que enfrenta TCC hoy.</div>
-      </div>
+    <div class="ej-text">
+      <div class="ej-eyebrow">Gestión de Crisis en acción</div>
+      <div class="ej-tag fu-0">México · Julio 2018 · Crisis en tiempo real</div>
+      <div class="ej-name fu-1">Aeroméxico<br>Vuelo 2431</div>
+      <div class="ej-divider"></div>
+      <div class="ej-body fu-2">El 31 de julio de 2018, el vuelo AM2431 se desplomó en Durango segundos después de despegar con 103 personas a bordo. En menos de 15 minutos Aeroméxico emitió su primer comunicado. Esa misma tarde habilitaron transporte gratuito para familias y una línea de atención. Esa misma noche, el director general Andrés Conesa convocó a conferencia de prensa, cubrió el 100% de los gastos, reconoció el accidente sin excusas y dijo que las causas se darían a conocer cuando hubiera información verificada — sin especular.</div>
+      <div class="ej-result fu-3">"El mercado tuvo una mejor reacción porque su directivo salió a anunciar una serie de medidas." Las acciones de Aeroméxico no cayeron. La comunicación proactiva salvó el valor de la empresa en las horas más críticas.</div>
+    </div>
+    <div class="ej-image">
+      <img src="img/ej_aeromexico.jpg" alt="Aeroméxico Vuelo 2431 conferencia de prensa" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_aeromexico.jpg</div>'">
     </div>
   </div>
 </div>
 
-<!-- SVUCA — CONTEXTO VUCA -->
+<!-- SVUCA — VUCA -->
 <div class="slide" id="svuca">
   <div class="vuca-wrap">
     <div class="vuca-letters">
-      <div class="vuca-letter-block">
-        <div class="vuca-big">V</div>
-        <div class="vuca-word">Volatility</div>
-      </div>
-      <div class="vuca-letter-block">
-        <div class="vuca-big">U</div>
-        <div class="vuca-word">Uncertainty</div>
-      </div>
-      <div class="vuca-letter-block">
-        <div class="vuca-big">C</div>
-        <div class="vuca-word">Complexity</div>
-      </div>
-      <div class="vuca-letter-block">
-        <div class="vuca-big">A</div>
-        <div class="vuca-word">Ambiguity</div>
-      </div>
+      <div class="vuca-letter-block"><div class="vuca-big">V</div><div class="vuca-word">Volatility</div></div>
+      <div class="vuca-letter-block"><div class="vuca-big">U</div><div class="vuca-word">Uncertainty</div></div>
+      <div class="vuca-letter-block"><div class="vuca-big">C</div><div class="vuca-word">Complexity</div></div>
+      <div class="vuca-letter-block"><div class="vuca-big">A</div><div class="vuca-word">Ambiguity</div></div>
     </div>
     <div class="vuca-bottom">
-      <div class="vuca-separator"></div>
-      <div class="vuca-close">El mundo en el que operamos hoy es más volátil, incierto, complejo y ambiguo que en cualquier momento de las últimas décadas. Los aranceles de Trump, la caída de rutas aéreas, el sargazo, la narrativa de inseguridad. En un entorno VUCA, la reputación no es un lujo — es el único activo que no depende del entorno.</div>
+      <div class="vuca-sep"></div>
+      <div class="vuca-close">El mundo en el que operamos hoy es más volátil, incierto, complejo y ambiguo que en cualquier momento de las últimas décadas. Los aranceles, la caída de rutas aéreas, el sargazo, la narrativa de inseguridad. En un entorno VUCA, la reputación no es un lujo — es el único activo que no depende del entorno.</div>
     </div>
   </div>
 </div>
@@ -929,30 +601,15 @@ html, body {
     <div class="ctx-top">
       <div>
         <div class="neg-row">
-          <div class="neg-block">
-            <div class="neg-fig">−35%</div>
-            <div class="neg-desc">Caída en lujo 2025. Ocupación al 30&nbsp;% en los peores momentos.</div>
-          </div>
-          <div class="neg-block">
-            <div class="neg-fig">−34%</div>
-            <div class="neg-desc">Pasajeros internacionales menos en Q1 2026. De 12 destinos, quedan 4.</div>
-          </div>
-          <div class="neg-block">
-            <div class="neg-fig">−60%</div>
-            <div class="neg-desc">Oferta de asientos mayo 2026 vs 2025. Cuatro aerolíneas suspendidas.</div>
-          </div>
+          <div class="neg-block"><div class="neg-fig">−35%</div><div class="neg-desc">Caída en lujo 2025. Ocupación al 30&nbsp;% en los peores momentos.</div></div>
+          <div class="neg-block"><div class="neg-fig">−34%</div><div class="neg-desc">Pasajeros internacionales menos en Q1 2026. De 12 destinos, quedan 4.</div></div>
+          <div class="neg-block"><div class="neg-fig">−60%</div><div class="neg-desc">Oferta de asientos mayo 2026 vs 2025. Cuatro aerolíneas suspendidas.</div></div>
         </div>
       </div>
       <div class="ctx-fotos">
-        <div class="ctx-foto">
-          <img src="img/critica_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_01</div>'">
-        </div>
-        <div class="ctx-foto">
-          <img src="img/critica_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_02</div>'">
-        </div>
-        <div class="ctx-foto">
-          <img src="img/critica_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_03</div>'">
-        </div>
+        <div class="ctx-foto"><img src="img/critica_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_01</div>'"></div>
+        <div class="ctx-foto"><img src="img/critica_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_02</div>'"></div>
+        <div class="ctx-foto"><img src="img/critica_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'ctx-foto-ph\'>critica_03</div>'"></div>
       </div>
     </div>
     <div class="mundial-row">
@@ -963,7 +620,7 @@ html, body {
   </div>
 </div>
 
-<!-- S14a — DIAGNÓSTICO · TCC -->
+<!-- S14a — DIAGNÓSTICO TCC -->
 <div class="slide diag-slide" id="s14a">
   <div class="d-inner">
     <div class="diag-text">
@@ -979,7 +636,7 @@ html, body {
   </div>
 </div>
 
-<!-- S14b — DIAGNÓSTICO · PGA -->
+<!-- S14b — DIAGNÓSTICO PGA -->
 <div class="slide diag-slide" id="s14b">
   <div class="d-inner">
     <div class="diag-text">
@@ -995,7 +652,7 @@ html, body {
   </div>
 </div>
 
-<!-- S14c — DIAGNÓSTICO · BENCHMARK -->
+<!-- S14c — DIAGNÓSTICO BENCHMARK -->
 <div class="slide diag-slide" id="s14c">
   <div class="d-inner">
     <div class="diag-text">
@@ -1016,84 +673,44 @@ html, body {
 <!-- S15 — RETO 01 -->
 <div class="slide reto-slide" id="s15">
   <div class="reto-wrap">
-    <div class="reto-text">
-      <div class="reto-ghost">01</div>
-      <div class="reto-label fu-0">Reto 01 / 06</div>
-      <div class="reto-name fu-1">Consolidación de la<br>narrativa institucional</div>
-      <div class="divider-line"></div>
-      <div class="reto-body fu-2">Unificar los esfuerzos previos en una narrativa madre aplicable a todos los niveles, garantizando que cada acción proyecte un carácter institucional propio y coherente.</div>
-    </div>
-    <div class="reto-image">
-      <img src="img/reto_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_01.jpg</div>'">
-    </div>
+    <div class="reto-text"><div class="reto-ghost">01</div><div class="reto-label fu-0">Reto 01 / 06</div><div class="reto-name fu-1">Consolidación de la<br>narrativa institucional</div><div class="divider-line"></div><div class="reto-body fu-2">Unificar los esfuerzos previos en una narrativa madre aplicable a todos los niveles, garantizando que cada acción proyecte un carácter institucional propio y coherente.</div></div>
+    <div class="reto-image"><img src="img/reto_01.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_01.jpg</div>'"></div>
   </div>
 </div>
 
 <!-- S16 — RETO 02 -->
 <div class="slide cream reto-slide" id="s16">
   <div class="reto-wrap">
-    <div class="reto-text">
-      <div class="reto-ghost">02</div>
-      <div class="reto-label fu-0">Reto 02 / 06</div>
-      <div class="reto-name fu-1">Evolución y profesionalización<br>de la vocería</div>
-      <div class="divider-line"></div>
-      <div class="reto-body fu-2">Transitar de interacciones mediáticas pagadas a una visibilidad orgánica, implementando un programa de entrenamiento formal que garantice transmisiones precisas y eficaces.</div>
-    </div>
-    <div class="reto-image">
-      <img src="img/reto_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_02.jpg</div>'">
-    </div>
+    <div class="reto-text"><div class="reto-ghost">02</div><div class="reto-label fu-0">Reto 02 / 06</div><div class="reto-name fu-1">Evolución y profesionalización<br>de la vocería</div><div class="divider-line"></div><div class="reto-body fu-2">Transitar de interacciones mediáticas pagadas a una visibilidad orgánica, implementando un programa de entrenamiento formal que garantice transmisiones precisas y eficaces.</div></div>
+    <div class="reto-image"><img src="img/reto_02.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_02.jpg</div>'"></div>
   </div>
 </div>
 
 <!-- S17 — RETO 03 -->
 <div class="slide reto-slide" id="s17">
   <div class="reto-wrap">
-    <div class="reto-text">
-      <div class="reto-ghost">03</div>
-      <div class="reto-label fu-0">Reto 03 / 06</div>
-      <div class="reto-name fu-1">Estructuración de la<br>comunicación interna</div>
-      <div class="divider-line"></div>
-      <div class="reto-body fu-2">Construir desde cero un ecosistema propio, independiente de la división hotelera, para unificar protocolos y conectar a todos los colaboradores bajo una misma identidad.</div>
-    </div>
-    <div class="reto-image">
-      <img src="img/reto_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_03.jpg</div>'">
-    </div>
+    <div class="reto-text"><div class="reto-ghost">03</div><div class="reto-label fu-0">Reto 03 / 06</div><div class="reto-name fu-1">Estructuración de la<br>comunicación interna</div><div class="divider-line"></div><div class="reto-body fu-2">Construir desde cero un ecosistema propio, independiente de la división hotelera, para unificar protocolos y conectar a todos los colaboradores bajo una misma identidad.</div></div>
+    <div class="reto-image"><img src="img/reto_03.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_03.jpg</div>'"></div>
   </div>
 </div>
 
 <!-- S18 — RETO 04 -->
 <div class="slide cream reto-slide" id="s18">
   <div class="reto-wrap">
-    <div class="reto-text">
-      <div class="reto-ghost">04</div>
-      <div class="reto-label fu-0">Reto 04 / 06</div>
-      <div class="reto-name fu-1">Gobernanza y<br>cadencia de canales</div>
-      <div class="divider-line"></div>
-      <div class="reto-body fu-2">Depurar la dispersión actual de plataformas mediante un plan editorial claro, convirtiéndolas en espacios verdaderamente activos y con continuidad.</div>
-    </div>
-    <div class="reto-image">
-      <img src="img/reto_04.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_04.jpg</div>'">
-    </div>
+    <div class="reto-text"><div class="reto-ghost">04</div><div class="reto-label fu-0">Reto 04 / 06</div><div class="reto-name fu-1">Gobernanza y<br>cadencia de canales</div><div class="divider-line"></div><div class="reto-body fu-2">Depurar la dispersión actual de plataformas mediante un plan editorial claro, convirtiéndolas en espacios verdaderamente activos y con continuidad.</div></div>
+    <div class="reto-image"><img src="img/reto_04.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_04.jpg</div>'"></div>
   </div>
 </div>
 
 <!-- S19 — RETO 05 -->
 <div class="slide reto-slide" id="s19">
   <div class="reto-wrap">
-    <div class="reto-text">
-      <div class="reto-ghost">05</div>
-      <div class="reto-label fu-0">Reto 05 / 06</div>
-      <div class="reto-name fu-1">Proyección externa<br>de los activos</div>
-      <div class="divider-line"></div>
-      <div class="reto-body fu-2">Cerrar la brecha de desconocimiento en el mercado proyectando nuestra realidad hacia afuera, logrando que nos reconozcan por lo que somos antes de visitarnos.</div>
-    </div>
-    <div class="reto-image">
-      <img src="img/reto_05.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_05.jpg</div>'">
-    </div>
+    <div class="reto-text"><div class="reto-ghost">05</div><div class="reto-label fu-0">Reto 05 / 06</div><div class="reto-name fu-1">Proyección externa<br>de los activos</div><div class="divider-line"></div><div class="reto-body fu-2">Cerrar la brecha de desconocimiento en el mercado proyectando nuestra realidad hacia afuera, logrando que nos reconozcan por lo que somos antes de visitarnos.</div></div>
+    <div class="reto-image"><img src="img/reto_05.jpg" onerror="this.parentElement.innerHTML='<div class=\'reto-ph\'>img/reto_05.jpg</div>'"></div>
   </div>
 </div>
 
-<!-- S20 — RETO 06 + VIDEO KENDALL -->
+<!-- S20 — RETO 06 + KENDALL -->
 <div class="slide" id="s20">
   <div class="reto-split">
     <div style="display:flex;flex-direction:column;gap:24px;position:relative;">
@@ -1104,9 +721,7 @@ html, body {
       <div class="reto-body fu-2">Integrar la comunicación local como un filtro preventivo en la toma de decisiones estratégicas, evaluando proactivamente cada iniciativa para proteger nuestra operación.</div>
     </div>
     <div class="reto-video">
-      <iframe src="https://www.youtube.com/embed/YNktWKx6RY0?rel=0&modestbranding=1&controls=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen title="Kendall Jenner — reputación y deseo en real estate de lujo"></iframe>
+      <iframe src="https://www.youtube.com/embed/YNktWKx6RY0?rel=0&modestbranding=1&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Kendall Jenner — reputación y deseo en real estate de lujo"></iframe>
     </div>
   </div>
 </div>
@@ -1114,7 +729,7 @@ html, body {
 
 <!-- ═══════════════════ ACTO III ═══════════════════ -->
 
-<!-- S22 — MARCO ESTRATÉGICO · Tres líneas -->
+<!-- S22 — MARCO ESTRATÉGICO -->
 <div class="slide marco-slide" id="s22">
   <div class="m-inner">
     <div class="eyebrow fu-0">08 · Cómo lo estamos atendiendo</div>
@@ -1122,36 +737,18 @@ html, body {
     <div class="marco-lineas">
       <div class="marco-linea">
         <div class="marco-linea-name">Tulum<br>Country Club</div>
-        <div>
-          <div class="marco-linea-tag">Objetivo</div>
-          <div class="marco-linea-obj">Expandir el conocimiento de nuestra oferta de valor integral en desarrollo de suelo e inmobiliaria en la Riviera Maya.</div>
-        </div>
-        <div>
-          <div class="marco-linea-tag">Impacto esperado</div>
-          <div class="marco-linea-imp">Dejar de depender exclusivamente de la pauta publicitaria. Perfiles que llegan atraídos por reputación. TCC como referente indiscutible del sector.</div>
-        </div>
+        <div><div class="marco-linea-tag">Objetivo</div><div class="marco-linea-obj">Expandir el conocimiento de nuestra oferta de valor integral en desarrollo de suelo e inmobiliaria en la Riviera Maya.</div></div>
+        <div><div class="marco-linea-tag">Impacto esperado</div><div class="marco-linea-imp">Dejar de depender exclusivamente de la pauta publicitaria. Perfiles que llegan atraídos por reputación. TCC como referente indiscutible del sector.</div></div>
       </div>
       <div class="marco-linea">
         <div class="marco-linea-name">PGA Riviera<br>Maya</div>
-        <div>
-          <div class="marco-linea-tag">Objetivo</div>
-          <div class="marco-linea-obj">Lograr que los golfistas premium que viajan a la región conozcan y prioricen nuestro campo como un <em>must-play</em> que ofrece una experiencia integral.</div>
-        </div>
-        <div>
-          <div class="marco-linea-tag">Impacto esperado</div>
-          <div class="marco-linea-imp">Incrementar el número de golfistas profesionales e instituciones que nos eligen. El campo como referencia obligada de la zona.</div>
-        </div>
+        <div><div class="marco-linea-tag">Objetivo</div><div class="marco-linea-obj">Lograr que los golfistas premium que viajan a la región conozcan y prioricen nuestro campo como un <em>must-play</em> que ofrece una experiencia integral.</div></div>
+        <div><div class="marco-linea-tag">Impacto esperado</div><div class="marco-linea-imp">Incrementar el número de golfistas profesionales e instituciones que nos eligen. El campo como referencia obligada de la zona.</div></div>
       </div>
       <div class="marco-linea">
         <div class="marco-linea-name">Plataforma<br>de Servicios</div>
-        <div>
-          <div class="marco-linea-tag">Objetivo</div>
-          <div class="marco-linea-obj">Hacer que nuestro ecosistema sea conocido, entendido y elegido por residentes y público de la zona como el más completo y seguro.</div>
-        </div>
-        <div>
-          <div class="marco-linea-tag">Impacto esperado</div>
-          <div class="marco-linea-imp">Incrementar visitas recurrentes, preferencia local y reconocimiento de nuestros principales activos en la entidad.</div>
-        </div>
+        <div><div class="marco-linea-tag">Objetivo</div><div class="marco-linea-obj">Hacer que nuestro ecosistema sea conocido, entendido y elegido por residentes y público de la zona como el más completo y seguro.</div></div>
+        <div><div class="marco-linea-tag">Impacto esperado</div><div class="marco-linea-imp">Incrementar visitas recurrentes, preferencia local y reconocimiento de nuestros principales activos en la entidad.</div></div>
       </div>
     </div>
   </div>
@@ -1168,20 +765,20 @@ html, body {
         <div class="ci-name">Marca<br>Empleadora</div>
         <div class="ci-subtitle">Employee Value Proposition</div>
         <div class="ci-body">Construiremos nuestra EVP propia de TCC y PGA Riviera Maya para atraer y retener talento.</div>
-        <div class="ci-body">Estandarizaremos nuestro discurso de reclutamiento —mensajes clave, recursos informativos y presencia en canales profesionales— para garantizar que los candidatos calificados entiendan por qué trabajar aquí.</div>
+        <div class="ci-body">Estandarizaremos nuestro discurso de reclutamiento para garantizar que los candidatos calificados entiendan por qué trabajar aquí.</div>
       </div>
       <div class="ci-col">
         <div class="ci-badge"><div class="ci-badge-text">Frente 02 · Cultura y retención</div></div>
         <div class="ci-name">Pertenencia<br>e Identidad</div>
         <div class="ci-subtitle">Comunidad interna</div>
         <div class="ci-body">Instalaremos un verdadero sentido de pertenencia y orgullo mediante comunicación constante, cercana y replicable.</div>
-        <div class="ci-body">Newsletter y canal oficial de WhatsApp que destaquen historias humanas, buenas prácticas operativas y la vida del sitio, asegurando que toda la plantilla comparta la misma visión.</div>
+        <div class="ci-body">Newsletter y canal oficial de WhatsApp que destaquen historias humanas, buenas prácticas operativas y la vida del sitio.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- S24 — RESULTADOS · KFT -->
+<!-- S24 — RESULTADOS KFT -->
 <div class="slide res-slide" id="s24">
   <div class="r-inner">
     <div class="eyebrow fu-0">09 · La estrategia en acción</div>
@@ -1207,7 +804,7 @@ html, body {
   </div>
 </div>
 
-<!-- S24b — RESULTADOS · Capitalización + Vocería -->
+<!-- S24b — RESULTADOS Capitalización + Vocería -->
 <div class="slide res-slide" id="s24b">
   <div class="r-inner">
     <div class="eyebrow fu-0">09 · La estrategia en acción</div>
@@ -1239,7 +836,7 @@ html, body {
   </div>
 </div>
 
-<!-- S24c — RESULTADOS · EVP + Narrativa -->
+<!-- S24c — RESULTADOS EVP + Narrativa -->
 <div class="slide res-slide" id="s24c">
   <div class="r-inner">
     <div class="eyebrow fu-0">09 · La estrategia en acción</div>
@@ -1260,7 +857,7 @@ html, body {
         <div class="res-moment-text">
           <div class="res-block-title">05 · Narrativa institucional en construcción</div>
           <div class="res-bullets" style="margin-top:10px">
-            <div class="res-bullet">Hemos definido y comenzado a operar bajo una narrativa central propia. Ya orienta cada decisión de comunicación: somos una comunidad residencial exclusiva en la Riviera Maya concebida para perdurar, con impacto positivo, donde la seguridad, el bienestar y los servicios definen un estilo de vida integral.</div>
+            <div class="res-bullet">Hemos definido y comenzado a operar bajo una narrativa central propia. Ya orienta cada decisión de comunicación: somos una comunidad residencial exclusiva en la Riviera Maya concebida para perdurar, con impacto positivo.</div>
           </div>
         </div>
         <div class="res-moment-img">
@@ -1276,27 +873,9 @@ html, body {
   <div class="c-inner">
     <div class="cierre-headline">Por fin existe un área<br>de Comunicación.</div>
     <div class="cierre-puntos">
-      <div class="cierre-punto">
-        <div class="cp-num">01</div>
-        <div>
-          <div class="cp-title">De área de soporte a pilar estratégico</div>
-          <div class="cp-body">Estamos dejando de ser un simple emisor de mensajes para integrarnos como una herramienta de gestión. Nuestro objetivo es participar activamente en la toma de decisiones, anticipar riesgos y proteger nuestra licencia social para operar.</div>
-        </div>
-      </div>
-      <div class="cierre-punto">
-        <div class="cp-num">02</div>
-        <div>
-          <div class="cp-title">Construcción de una narrativa propia</div>
-          <div class="cp-body">Estamos en el proceso de edificar una voz institucional sólida, basada en nuestros activos reales y enfocada siempre en proyectar un claro valor orientado al usuario.</div>
-        </div>
-      </div>
-      <div class="cierre-punto">
-        <div class="cp-num">03</div>
-        <div>
-          <div class="cp-title">Una sola voz institucional</div>
-          <div class="cp-body">Avanzamos hacia la integración de un ecosistema completo: desde fomentar el orgullo de pertenencia que retenga a nuestro talento, hasta consolidar el reconocimiento externo que atraiga a los mejores golfistas e inversores del mundo.</div>
-        </div>
-      </div>
+      <div class="cierre-punto"><div class="cp-num">01</div><div><div class="cp-title">De área de soporte a pilar estratégico</div><div class="cp-body">Estamos dejando de ser un simple emisor de mensajes para integrarnos como una herramienta de gestión. Nuestro objetivo es participar activamente en la toma de decisiones, anticipar riesgos y proteger nuestra licencia social para operar.</div></div></div>
+      <div class="cierre-punto"><div class="cp-num">02</div><div><div class="cp-title">Construcción de una narrativa propia</div><div class="cp-body">Estamos en el proceso de edificar una voz institucional sólida, basada en nuestros activos reales y enfocada siempre en proyectar un claro valor orientado al usuario.</div></div></div>
+      <div class="cierre-punto"><div class="cp-num">03</div><div><div class="cp-title">Una sola voz institucional</div><div class="cp-body">Avanzamos hacia la integración de un ecosistema completo: desde fomentar el orgullo de pertenencia que retenga a nuestro talento, hasta consolidar el reconocimiento externo que atraiga a los mejores golfistas e inversores del mundo.</div></div></div>
     </div>
     <div class="cierre-firmas">Tulum Country Club &nbsp;·&nbsp; PGA Riviera Maya</div>
   </div>
@@ -1309,37 +888,13 @@ html, body {
     <div class="tl-track">
       <div class="tl-line"></div>
       <div class="tl-line-fill"></div>
-      <div class="tl-items" id="tl-items">
-        <div class="tl-item" onclick="selectHito(0)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">Nov 2025</div>
-          <div class="tl-label">WALA · Acciones iniciales de PR</div>
-        </div>
-        <div class="tl-item" onclick="selectHito(1)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">Ene 2026</div>
-          <div class="tl-label">Arranque KFT · FITUR · Clínicas FRM</div>
-        </div>
-        <div class="tl-item" onclick="selectHito(2)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">Mar 2026</div>
-          <div class="tl-label">Amplificación Korn Ferry Tour</div>
-        </div>
-        <div class="tl-item" onclick="selectHito(3)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">Abr 2026</div>
-          <div class="tl-label">Korn Ferry Tour</div>
-        </div>
-        <div class="tl-item" onclick="selectHito(4)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">May 2026</div>
-          <div class="tl-label">EVP · Clínica Cancún</div>
-        </div>
-        <div class="tl-item" onclick="selectHito(5)">
-          <div class="tl-dot"></div>
-          <div class="tl-date">2026 →</div>
-          <div class="tl-label">Segundo semestre · Estrategia completa</div>
-        </div>
+      <div class="tl-items">
+        <div class="tl-item" onclick="selectHito(0)"><div class="tl-dot"></div><div class="tl-date">Nov 2025</div><div class="tl-label">WALA · Acciones iniciales de PR</div></div>
+        <div class="tl-item" onclick="selectHito(1)"><div class="tl-dot"></div><div class="tl-date">Ene 2026</div><div class="tl-label">Arranque KFT · FITUR · Clínicas FRM</div></div>
+        <div class="tl-item" onclick="selectHito(2)"><div class="tl-dot"></div><div class="tl-date">Mar 2026</div><div class="tl-label">Amplificación Korn Ferry Tour</div></div>
+        <div class="tl-item" onclick="selectHito(3)"><div class="tl-dot"></div><div class="tl-date">Abr 2026</div><div class="tl-label">Korn Ferry Tour</div></div>
+        <div class="tl-item" onclick="selectHito(4)"><div class="tl-dot"></div><div class="tl-date">May 2026</div><div class="tl-label">EVP · Clínica Cancún</div></div>
+        <div class="tl-item" onclick="selectHito(5)"><div class="tl-dot"></div><div class="tl-date">2026 →</div><div class="tl-label">Segundo semestre · Estrategia completa</div></div>
       </div>
     </div>
     <div id="tl-detail-box"></div>
@@ -1347,37 +902,23 @@ html, body {
   </div>
 </div>
 
-<!-- S27 — OBAMA VIDEO FINAL -->
+<!-- S27 — OBAMA -->
 <div class="slide" id="s27">
   <div class="obama-label">Para cerrar.</div>
   <div class="obama-video-wrap">
-    <!-- Reemplaza VIDEO_ID_AQUI por el ID de YouTube cuando lo tengas -->
-    <iframe
-      src="https://www.youtube.com/embed/VIDEO_ID_AQUI?rel=0&modestbranding=1&controls=1"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      title="Barack Obama — Farewell">
-    </iframe>
+    <iframe src="https://www.youtube.com/embed/X65e6t2I-SM?rel=0&modestbranding=1&controls=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Barack Obama — Farewell"></iframe>
   </div>
 </div>
 
 
 <script>
 /* ── CURSOR ──────────────────────────────── */
-const curEl=document.getElementById('cursor');
-const dotEl=document.getElementById('cursor-dot');
+const curEl=document.getElementById('cursor'),dotEl=document.getElementById('cursor-dot');
 let mx=0,my=0,cx=0,cy=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  dotEl.style.left=mx+'px';dotEl.style.top=my+'px';
-});
-(function loop(){
-  cx+=(mx-cx)*0.11;cy+=(my-cy)*0.11;
-  curEl.style.left=cx+'px';curEl.style.top=cy+'px';
-  requestAnimationFrame(loop);
-})();
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.left=mx+'px';dotEl.style.top=my+'px';});
+(function loop(){cx+=(mx-cx)*0.11;cy+=(my-cy)*0.11;curEl.style.left=cx+'px';curEl.style.top=cy+'px';requestAnimationFrame(loop);})();
 
-/* ── SLIDE ENGINE ────────────────────────── */
+/* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
   's2','s3','s4','s5','s6','s7','s8',
   's9','s9b','s10','s10b','s11','s11b','s12','s12b',
@@ -1386,13 +927,10 @@ const SLIDE_IDS=[
   's22','s23','s24','s24b','s24c','s25','s26','s27'
 ];
 const LAST_NUM=27;
-let idx=0;
-
-let schemaStep=0;
+let idx=0,schemaStep=0;
 const schemaCols=document.querySelectorAll('#schema-grid .schema-col');
 
 function getEl(id){return document.getElementById(id);}
-
 function showByIdx(i){
   if(i<0||i>=SLIDE_IDS.length)return;
   getEl(SLIDE_IDS[idx])?.classList.remove('active');
@@ -1403,36 +941,25 @@ function showByIdx(i){
   if(id!=='s7'){schemaStep=0;schemaCols.forEach(c=>c.classList.remove('vis'));}
   if(idx>0)document.getElementById('hint').style.opacity='0';
 }
-
 function advance(){
-  if(SLIDE_IDS[idx]==='s7'&&schemaStep<schemaCols.length){
-    schemaCols[schemaStep].classList.add('vis');schemaStep++;return;
-  }
+  if(SLIDE_IDS[idx]==='s7'&&schemaStep<schemaCols.length){schemaCols[schemaStep].classList.add('vis');schemaStep++;return;}
   showByIdx(idx+1);
 }
 function retreat(){
-  if(SLIDE_IDS[idx]==='s7'&&schemaStep>0){
-    schemaStep--;schemaCols[schemaStep].classList.remove('vis');return;
-  }
+  if(SLIDE_IDS[idx]==='s7'&&schemaStep>0){schemaStep--;schemaCols[schemaStep].classList.remove('vis');return;}
   showByIdx(idx-1);
 }
-
 function updateChrome(){
   document.getElementById('progress-bar').style.width=(idx/(SLIDE_IDS.length-1)*100)+'%';
   const id=SLIDE_IDS[idx];
   let n=id.replace('s','').replace('b','').replace('c','');
-  if(id==='svuca') n='VUCA';
-  if(id==='s9b') n='9';
-  if(id==='s10b') n='10';
-  if(id==='s11b') n='11';
-  if(id==='s12b') n='12';
-  if(id==='s14a'||id==='s14b'||id==='s14c') n='14';
-  if(id==='s24b'||id==='s24c') n='24';
-  document.getElementById('slide-counter').textContent=
-    String(n).padStart(2,'0')+' / '+String(LAST_NUM).padStart(2,'0');
+  if(id==='svuca')n='VUCA';
+  if(id==='s9b')n='9';if(id==='s10b')n='10';if(id==='s11b')n='11';if(id==='s12b')n='12';
+  if(id==='s14a'||id==='s14b'||id==='s14c')n='14';
+  if(id==='s24b'||id==='s24c')n='24';
+  document.getElementById('slide-counter').textContent=String(n).padStart(2,'0')+' / '+String(LAST_NUM).padStart(2,'0');
 }
 
-/* ── INPUT ───────────────────────────────── */
 document.addEventListener('keydown',e=>{
   if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();advance();}
   if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();retreat();}
@@ -1441,48 +968,23 @@ document.getElementById('nav-next').addEventListener('click',advance);
 document.getElementById('nav-prev').addEventListener('click',retreat);
 let ts=0;
 document.addEventListener('touchstart',e=>{ts=e.touches[0].clientX;});
-document.addEventListener('touchend',e=>{
-  const d=ts-e.changedTouches[0].clientX;
-  if(Math.abs(d)>50){d>0?advance():retreat();}
-});
+document.addEventListener('touchend',e=>{const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?advance():retreat();}});
 
 /* ── LÍNEA DE TIEMPO ─────────────────────── */
 const HITOS=[
-  {
-    title:'WALA · Acciones iniciales de PR — Nov 2025',
-    body:'Primeras acciones de relaciones públicas del área en el contexto del WALA — Women\'s Amateur Latin America de la R&A y la Anikka Foundation. El arranque del área de Comunicación en modo PR activo, posicionando PGA Riviera Maya ante medios de golf internacionales.'
-  },
-  {
-    title:'Arranque KFT · FITUR · Clínicas Fundación Real Madrid — Ene 2026',
-    body:'Tres frentes simultáneos: inicio de la estrategia de comunicación del Korn Ferry Tour, presencia en FITUR Madrid con cobertura de la Fundación Real Madrid, y arranque de la narrativa de las primeras Clínicas en Cancún. El área de Comunicación opera por primera vez como un sistema integrado.'
-  },
-  {
-    title:'Amplificación Korn Ferry Tour — Mar 2026',
-    body:'Fase de amplificación previa al torneo: generación de contenido editorial, activación de vocería con Pablo Junco, cobertura anticipada en medios de golf nacionales e internacionales. La narrativa del campo y de TCC empieza a circular antes del evento.'
-  },
-  {
-    title:'Korn Ferry Tour — Abr 2026',
-    body:'El evento: 761 impactos, +436M de alcance, +$6M en Ad Value, +169% vs 2025. Washington Post, El Universal, Marca, Golf Channel, ESPN. El resultado histórico que valida la estrategia de comunicación extendida más allá de la semana del torneo.'
-  },
-  {
-    title:'Employee Value Proposition · Clínica Cancún — May 2026',
-    body:'Dos frentes paralelos: los grupos de discusión de la EVP con colaboradores de TCC y PGA Riviera Maya para mapear los diferenciadores de la marca empleadora, y la Clínica de la Fundación Real Madrid en Cancún — primera expansión del programa fuera de Tulum, con portadas de diarios y TCC siempre como motor.'
-  },
-  {
-    title:'Segundo semestre 2026 · La estrategia completa',
-    body:'Lanzamiento del canal oficial de WhatsApp corporativo y página de Facebook de reclutamiento. Activación de la estrategia de comunicación de marca de PGA Riviera Maya para capitalizar los reconocimientos World Golf Awards durante los 12 meses del año. TCC Real Estate como protagonista de su propia narrativa en medios nacionales e internacionales.'
-  }
+  {title:'WALA · Acciones iniciales de PR — Nov 2025',body:'Primeras acciones de relaciones públicas del área en el contexto del WALA — Women\'s Amateur Latin America de la R&A y la Anikka Foundation. El arranque del área de Comunicación en modo PR activo, posicionando PGA Riviera Maya ante medios de golf internacionales.'},
+  {title:'Arranque KFT · FITUR · Clínicas FRM — Ene 2026',body:'Tres frentes simultáneos: inicio de la estrategia de comunicación del Korn Ferry Tour, presencia en FITUR Madrid con cobertura de la Fundación Real Madrid, y arranque de la narrativa de las primeras Clínicas en Cancún. El área de Comunicación opera por primera vez como un sistema integrado.'},
+  {title:'Amplificación Korn Ferry Tour — Mar 2026',body:'Fase de amplificación previa al torneo: generación de contenido editorial, activación de vocería con Pablo Junco, cobertura anticipada en medios de golf nacionales e internacionales. La narrativa del campo y de TCC empieza a circular antes del evento.'},
+  {title:'Korn Ferry Tour — Abr 2026',body:'El evento: 761 impactos, +436M de alcance, +$6M en Ad Value, +169% vs 2025. Washington Post, El Universal, Marca, Golf Channel, ESPN. El resultado histórico que valida la estrategia de comunicación extendida más allá de la semana del torneo.'},
+  {title:'Employee Value Proposition · Clínica Cancún — May 2026',body:'Dos frentes paralelos: los grupos de discusión de la EVP con colaboradores de TCC y PGA Riviera Maya para mapear los diferenciadores de la marca empleadora, y la Clínica de la Fundación Real Madrid en Cancún — primera expansión del programa fuera de Tulum, con portadas de diarios y TCC siempre como motor.'},
+  {title:'Segundo semestre 2026 · La estrategia completa',body:'Lanzamiento del canal oficial de WhatsApp corporativo y página de Facebook de reclutamiento. Activación de la estrategia de comunicación de marca de PGA Riviera Maya para capitalizar los reconocimientos World Golf Awards durante los 12 meses del año. TCC Real Estate como protagonista de su propia narrativa en medios nacionales e internacionales.'}
 ];
-
 function selectHito(i){
-  document.querySelectorAll('.tl-item').forEach((el,j)=>{
-    el.classList.toggle('active-item',j===i);
-  });
-  const box=document.getElementById('tl-detail-box');
-  box.innerHTML=`<div class="tl-detail visible"><div class="tl-detail-title">${HITOS[i].title}</div><div class="tl-detail-body">${HITOS[i].body}</div></div>`;
+  document.querySelectorAll('.tl-item').forEach((el,j)=>el.classList.toggle('active-item',j===i));
+  document.getElementById('tl-detail-box').innerHTML=`<div class="tl-detail visible"><div class="tl-detail-title">${HITOS[i].title}</div><div class="tl-detail-body">${HITOS[i].body}</div></div>`;
 }
 
-/* ── IMÁGENES DESDE tcc_images.js ────────── */
+/* ── IMÁGENES ─────────────────────────────── */
 window.addEventListener('load',()=>{
   function getSrc(key){
     if(window.tccImages&&window.tccImages[key])return window.tccImages[key];
@@ -1495,7 +997,6 @@ window.addEventListener('load',()=>{
   if(ctxBg&&tvSrc)ctxBg.style.backgroundImage='url('+tvSrc+')';
 });
 
-/* ── INIT ────────────────────────────────── */
 showByIdx(0);
 </script>
 </body>
