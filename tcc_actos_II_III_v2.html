@@ -208,6 +208,24 @@ html, body {
   color:rgba(179,163,105,0.6); display:flex; align-items:center;
 }
 
+/* ── S9 / S10 CUADRÍCULA VERTIENTES ─────── */
+#s9, #s10 { background:var(--black); align-items:center; justify-content:center; }
+.vg-wrap { width:100%; max-width:1200px; padding:0 60px; display:flex; flex-direction:column; gap:20px; }
+.vg-eyebrow { font-size:9px; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); opacity:0; transform:translateY(8px); transition:opacity 0.5s 0.1s ease, transform 0.5s 0.1s ease; }
+#s9.active .vg-eyebrow, #s10.active .vg-eyebrow { opacity:1; transform:translateY(0); }
+.vg-grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:2px; }
+.vg-cell { padding:28px 32px; display:flex; flex-direction:column; gap:12px; background:rgba(179,163,105,0.05); border:1px solid rgba(179,163,105,0.12); opacity:0; transform:translateY(16px); transition:opacity 0.55s ease, transform 0.55s ease; }
+.vg-cell.vg-dark { background:rgba(250,250,248,0.02); border-color:rgba(179,163,105,0.08); }
+.vg-cell.vg-example { background:rgba(179,163,105,0.04); border-color:rgba(179,163,105,0.2); border-left:2px solid rgba(179,163,105,0.5); }
+.vg-cell.visible { opacity:1; transform:translateY(0); }
+.vg-num { font-size:9px; font-weight:600; letter-spacing:0.3em; color:var(--gold); }
+.vg-name { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.6vw,34px); font-weight:500; line-height:1.05; color:var(--white); }
+.vg-line { width:32px; height:1px; background:rgba(179,163,105,0.4); }
+.vg-body { font-size:11px; font-weight:300; line-height:1.8; color:rgba(250,250,248,0.55); }
+.vg-ex-tag { font-size:8px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:rgba(179,163,105,0.55); }
+.vg-ex-name { font-family:'Cormorant Garamond',serif; font-size:clamp(18px,2.2vw,28px); font-weight:500; line-height:1.05; color:var(--gold-light); }
+.vg-ex-body { font-size:11px; font-weight:300; line-height:1.8; color:rgba(250,250,248,0.5); font-style:italic; }
+
 /* ── S8 HBR ─────────────────────────────── */
 #s8 .s8-inner { width:100%; max-width:1100px; padding:0 100px; display:flex; flex-direction:column; gap:32px; }
 .hbr-logo-wrap { height:52px; display:flex; align-items:center; opacity:0; transform:translateY(10px); transition:opacity 0.5s 0.1s ease,transform 0.5s 0.1s ease; }
@@ -581,134 +599,86 @@ html, body {
   </div>
 </div>
 
-<!-- S9 — VERTIENTE 01 · CORPORATIVA -->
-<div class="slide vertiente-slide" id="s9">
-  <div class="vt-inner">
-    <div class="vt-text">
-      <div class="v-ghost">01</div>
-      <div class="eyebrow">Vertiente 01 / 04</div>
-      <div class="v-name fu-0">Comunicación<br>Corporativa</div>
-      <div class="divider-line"></div>
-      <div class="v-body fu-1">Construye y protege la credibilidad ante autoridades, aliados e inversores. Gestiona nuestra licencia social para operar, garantizando que el entorno institucional perciba el impacto positivo de nuestras decisiones.</div>
-    </div>
-    <div class="vt-image">
-      <img src="img/v_corporativa.jpg" alt="Comunicación Corporativa" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_corporativa.jpg</div>'">
+<!-- S9 — CUATRO VERTIENTES CON REVEAL ESCALONADO -->
+<div class="slide" id="s9">
+  <div class="vg-wrap">
+    <div class="vg-eyebrow">Las cuatro vertientes de la comunicación</div>
+    <div class="vg-grid">
+
+      <!-- Corporativa -->
+      <div class="vg-cell" id="vg-corp">
+        <div class="vg-num">01</div>
+        <div class="vg-name">Comunicación<br>Corporativa</div>
+        <div class="vg-line"></div>
+        <div class="vg-body">Construye y protege la credibilidad ante autoridades, aliados e inversores. Gestiona la licencia social para operar y garantiza que el entorno institucional perciba el impacto positivo de nuestras decisiones.</div>
+      </div>
+
+      <!-- Blackstone -->
+      <div class="vg-cell vg-example" id="vg-blackstone">
+        <div class="vg-ex-tag">En acción</div>
+        <div class="vg-ex-name">Blackstone<br>Real Estate</div>
+        <div class="vg-line"></div>
+        <div class="vg-ex-body">Cartas trimestrales, vocería en Davos y narrativa consistente de "valor a largo plazo" que les permitió captar capital incluso en los peores momentos del mercado inmobiliario.</div>
+      </div>
+
+      <!-- Marca -->
+      <div class="vg-cell vg-dark" id="vg-marca">
+        <div class="vg-num">02</div>
+        <div class="vg-name">Comunicación<br>de Marca</div>
+        <div class="vg-line"></div>
+        <div class="vg-body">Conecta con la audiencia correcta generando interés orgánico. No paga por la atención — se la gana mediante historias auténticas centradas en el valor real del usuario.</div>
+      </div>
+
+      <!-- Bandon -->
+      <div class="vg-cell vg-example vg-dark" id="vg-bandon">
+        <div class="vg-ex-tag">En acción</div>
+        <div class="vg-ex-name">Bandon Dunes<br>Oregon</div>
+        <div class="vg-line"></div>
+        <div class="vg-ex-body">Sin un peso en publicidad desde 1999. Solo calidad de campo y word of mouth. Hoy es el mejor destino de golf público del mundo. La reputación construida desde la experiencia es el activo más difícil de replicar.</div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- S9b — EJEMPLO CORPORATIVA: BLACKSTONE -->
-<div class="slide ejemplo-slide" id="s9b">
-  <div class="ej-inner">
-    <div class="ej-text">
-      <div class="ej-eyebrow">Comunicación Corporativa en acción</div>
-      <div class="ej-tag fu-0">Real Estate · Inversión institucional global</div>
-      <div class="ej-name fu-1">Blackstone<br>Real Estate</div>
-      <div class="ej-divider"></div>
-      <div class="ej-body fu-2">El mayor gestor de activos inmobiliarios del mundo construyó su credibilidad institucional ante gobiernos, reguladores e inversores a través de comunicación estratégica muy controlada: cartas trimestrales a inversores, vocería selectiva de sus líderes en Davos y medios financieros tier 1, y una narrativa consistente de "valor a largo plazo" que nunca varía sin importar el ciclo del mercado.</div>
-      <div class="ej-result fu-3">Les permitió captar capital en los peores momentos del mercado inmobiliario. La confianza institucional ya estaba construida antes de que se necesitara.</div>
-    </div>
-    <div class="ej-image">
-      <img src="img/ej_blackstone.jpg" alt="Blackstone Real Estate" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_blackstone.jpg</div>'">
-    </div>
-  </div>
-</div>
+<!-- S10 — INTERNA Y CRISIS CON REVEAL ESCALONADO -->
+<div class="slide" id="s10">
+  <div class="vg-wrap">
+    <div class="vg-eyebrow">Las cuatro vertientes de la comunicación</div>
+    <div class="vg-grid">
 
-<!-- S10 — VERTIENTE 02 · MARCA -->
-<div class="slide cream vertiente-slide" id="s10">
-  <div class="vt-inner">
-    <div class="vt-text">
-      <div class="v-ghost">02</div>
-      <div class="eyebrow">Vertiente 02 / 04</div>
-      <div class="v-name fu-0">Comunicación<br>de Marca</div>
-      <div class="divider-line"></div>
-      <div class="v-body fu-1">Conecta con la audiencia correcta mediante la generación de interés orgánico. Centra su mensaje en el valor real que obtiene el usuario. A diferencia de la publicidad, no paga por la atención; se la gana mediante historias auténticas.</div>
-    </div>
-    <div class="vt-image">
-      <img src="img/v_marca.jpg" alt="Comunicación de Marca" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_marca.jpg</div>'">
-    </div>
-  </div>
-</div>
+      <!-- Interna -->
+      <div class="vg-cell" id="vg-interna">
+        <div class="vg-num">03</div>
+        <div class="vg-name">Comunicación<br>Interna</div>
+        <div class="vg-line"></div>
+        <div class="vg-body">Desarrolla la cultura y el sentido de pertenencia. La reputación externa se sostiene primero sobre la convicción interna — los equipos deben creer el mensaje antes de proyectarlo afuera.</div>
+      </div>
 
-<!-- S10b — EJEMPLO MARCA: BANDON DUNES -->
-<div class="slide cream ejemplo-slide" id="s10b">
-  <div class="ej-inner">
-    <div class="ej-text">
-      <div class="ej-eyebrow">Comunicación de Marca en acción</div>
-      <div class="ej-tag fu-0">Golf resort · Oregon · Sin publicidad desde 1999</div>
-      <div class="ej-name fu-1">Bandon Dunes<br>Oregon</div>
-      <div class="ej-divider"></div>
-      <div class="ej-body fu-2">En 1999 Mike Keiser abrió un campo en una costa remota de Oregon sin un solo peso en publicidad. Su única estrategia: hacer el campo tan bueno que los golfistas no pudieran callarse. Necesitaba 12,000 rondas para sobrevivir el primer año. Terminó con 23,000 — todo por recomendación boca a boca entre golfistas serios que no podían dejar de hablar del lugar.</div>
-      <div class="ej-result fu-3">25 años después es el mejor destino de golf público del mundo y sigue sin publicidad pagada. La reputación construida desde la experiencia real es el activo más difícil de replicar.</div>
-    </div>
-    <div class="ej-image">
-      <img src="img/ej_bandon.jpg" alt="Bandon Dunes Oregon" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_bandon.jpg</div>'">
-    </div>
-  </div>
-</div>
+      <!-- Four Seasons -->
+      <div class="vg-cell vg-example" id="vg-fourseasons">
+        <div class="vg-ex-tag">En acción</div>
+        <div class="vg-ex-name">Four Seasons<br>The Golden Rule</div>
+        <div class="vg-line"></div>
+        <div class="vg-ex-body">Una sola frase instalada desde el primer día en más de 100 hoteles y 30 países. No hay manual de servicio — hay una cultura. Sus empleados son los mejores embajadores externos porque primero creyeron el mensaje por dentro.</div>
+      </div>
 
-<!-- S11 — VERTIENTE 03 · INTERNA -->
-<div class="slide vertiente-slide" id="s11">
-  <div class="vt-inner">
-    <div class="vt-text">
-      <div class="v-ghost">03</div>
-      <div class="eyebrow">Vertiente 03 / 04</div>
-      <div class="v-name fu-0">Comunicación<br>Interna</div>
-      <div class="divider-line"></div>
-      <div class="v-body fu-1">Desarrolla la cultura y el sentido de pertenencia. Asegura que los equipos comprendan el rumbo del negocio para que proyecten esa misma confianza hacia afuera. La reputación externa se sostiene, primero, sobre la convicción interna.</div>
-    </div>
-    <div class="vt-image">
-      <img src="img/v_interna.jpg" alt="Comunicación Interna" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_interna.jpg</div>'">
-    </div>
-  </div>
-</div>
+      <!-- Crisis -->
+      <div class="vg-cell vg-dark" id="vg-crisis">
+        <div class="vg-num">04</div>
+        <div class="vg-name">Gestión de Riesgos<br>y Crisis</div>
+        <div class="vg-line"></div>
+        <div class="vg-body">Anticipa, monitoriza y neutraliza escenarios adversos. En momentos de incertidumbre protege la identidad de la organización con respuestas rápidas, claras y enfocadas en la resolución.</div>
+      </div>
 
-<!-- S11b — EJEMPLO INTERNA: FOUR SEASONS THE GOLDEN RULE -->
-<div class="slide ejemplo-slide" id="s11b">
-  <div class="ej-inner">
-    <div class="ej-text">
-      <div class="ej-eyebrow">Comunicación Interna en acción</div>
-      <div class="ej-tag fu-0">Hospitalidad de lujo · Cultura organizacional</div>
-      <div class="ej-name fu-1">Four Seasons<br>The Golden Rule</div>
-      <div class="ej-divider"></div>
-      <div class="ej-body fu-2">Su principio fundacional de comunicación interna es una sola frase: tratar a los demás como quisieras ser tratado. Cada colaborador la recibe desde el primer día y toda la comunicación interna orbita alrededor de ese principio. No hay manual de servicio al cliente — hay una cultura instalada. En más de 100 hoteles y 30 países, el mensaje es siempre el mismo porque nació desde adentro.</div>
-      <div class="ej-result fu-3">La cultura interna se convirtió en el activo de marca más valioso de la cadena. Sus empleados son los mejores embajadores externos porque primero creyeron el mensaje por dentro.</div>
-    </div>
-    <div class="ej-image">
-      <img src="img/ej_fourseasons.jpg" alt="Four Seasons The Golden Rule" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_fourseasons.jpg</div>'">
-    </div>
-  </div>
-</div>
+      <!-- Aeroméxico -->
+      <div class="vg-cell vg-example vg-dark" id="vg-aeromexico">
+        <div class="vg-ex-tag">En acción</div>
+        <div class="vg-ex-name">Aeroméxico<br>Vuelo 2431</div>
+        <div class="vg-line"></div>
+        <div class="vg-ex-body">En menos de 15 minutos emitieron el primer comunicado. Esa noche Andrés Conesa convocó a conferencia de prensa, reconoció el accidente sin excusas y cubrió el 100% de los gastos. Las acciones no cayeron. La comunicación proactiva salvó el valor de la empresa.</div>
+      </div>
 
-<!-- S12 — VERTIENTE 04 · CRISIS -->
-<div class="slide cream vertiente-slide" id="s12">
-  <div class="vt-inner">
-    <div class="vt-text">
-      <div class="v-ghost">04</div>
-      <div class="eyebrow">Vertiente 04 / 04</div>
-      <div class="v-name fu-0">Gestión de Riesgos<br>y Manejo de Crisis</div>
-      <div class="divider-line"></div>
-      <div class="v-body fu-1">Anticipa, monitoriza y neutraliza escenarios adversos. En periodos de incertidumbre, protege la identidad de la organización garantizando respuestas rápidas, claras y enfocadas siempre en la resolución para nuestra comunidad.</div>
-    </div>
-    <div class="vt-image">
-      <img src="img/v_crisis.jpg" alt="Gestión de Riesgos" onerror="this.parentElement.innerHTML='<div class=\'vt-ph\'>img/v_crisis.jpg</div>'">
-    </div>
-  </div>
-</div>
-
-<!-- S12b — EJEMPLO CRISIS: AEROMÉXICO VUELO 2431 -->
-<div class="slide cream ejemplo-slide" id="s12b">
-  <div class="ej-inner">
-    <div class="ej-text">
-      <div class="ej-eyebrow">Gestión de Crisis en acción</div>
-      <div class="ej-tag fu-0">México · Julio 2018 · Crisis en tiempo real</div>
-      <div class="ej-name fu-1">Aeroméxico<br>Vuelo 2431</div>
-      <div class="ej-divider"></div>
-      <div class="ej-body fu-2">El 31 de julio de 2018, el vuelo AM2431 se desplomó en Durango segundos después de despegar con 103 personas a bordo. En menos de 15 minutos Aeroméxico emitió su primer comunicado. Esa misma tarde habilitaron transporte gratuito para familias y una línea de atención. Esa misma noche, el director general Andrés Conesa convocó a conferencia de prensa, cubrió el 100% de los gastos, reconoció el accidente sin excusas y dijo que las causas se darían a conocer cuando hubiera información verificada — sin especular.</div>
-      <div class="ej-result fu-3">"El mercado tuvo una mejor reacción porque su directivo salió a anunciar una serie de medidas." Las acciones de Aeroméxico no cayeron. La comunicación proactiva salvó el valor de la empresa en las horas más críticas.</div>
-    </div>
-    <div class="ej-image">
-      <img src="img/ej_aeromexico.jpg" alt="Aeroméxico Vuelo 2431 conferencia de prensa" onerror="this.parentElement.innerHTML='<div class=\'ej-ph\'>img/ej_aeromexico.jpg</div>'">
     </div>
   </div>
 </div>
@@ -1056,8 +1026,8 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.
 
 /* ── SLIDE ENGINE ─────────────────────────── */
 const SLIDE_IDS=[
-  's3','s4','s7','s8',
-  's9','s9b','s10','s10b','s11','s11b','s12','s12b',
+  's2','s3','s4','s7','s8',
+  's9','s10',
   'svuca','s13','s14a','s14b','s14c',
   's15','s16','s17','s18','s19','s20',
   's22','s23','s24','s24b','s24c','s25','s26','s27'
@@ -1065,30 +1035,61 @@ const SLIDE_IDS=[
 const LAST_NUM=27;
 let idx=0,s7step=0;
 
+/* reveal state para s9 y s10 */
+const VG_STEPS={
+  's9':['vg-corp','vg-blackstone','vg-marca','vg-bandon'],
+  's10':['vg-interna','vg-fourseasons','vg-crisis','vg-aeromexico']
+};
+const vgStep={'s9':0,'s10':0};
+
 function getEl(id){return document.getElementById(id);}
+
+function resetVG(id){
+  if(!VG_STEPS[id])return;
+  vgStep[id]=0;
+  VG_STEPS[id].forEach(cid=>{getEl(cid)?.classList.remove('visible');});
+}
+
 function showByIdx(i){
   if(i<0||i>=SLIDE_IDS.length)return;
-  getEl(SLIDE_IDS[idx])?.classList.remove('active');
+  const prevId=SLIDE_IDS[idx];
+  getEl(prevId)?.classList.remove('active');
   idx=i;
   const id=SLIDE_IDS[idx];
   getEl(id)?.classList.add('active');
   if(id!=='s7'){s7step=0;const r=document.getElementById('ec-col-right');if(r)r.classList.remove('highlighted');}
+  if(id!=='s9')resetVG('s9');
+  if(id!=='s10')resetVG('s10');
   updateChrome();
   if(idx>0)document.getElementById('hint').style.opacity='0';
 }
+
 function advance(){
-  if(SLIDE_IDS[idx]==='s7'&&s7step===0){
-    s7step=1;
-    document.getElementById('ec-col-right')?.classList.add('highlighted');
-    return;
+  const id=SLIDE_IDS[idx];
+  /* s7 dos estados */
+  if(id==='s7'&&s7step===0){s7step=1;document.getElementById('ec-col-right')?.classList.add('highlighted');return;}
+  /* s9 y s10 reveal escalonado */
+  if(VG_STEPS[id]){
+    const step=vgStep[id];
+    if(step<VG_STEPS[id].length){
+      getEl(VG_STEPS[id][step])?.classList.add('visible');
+      vgStep[id]++;
+      return;
+    }
   }
   showByIdx(idx+1);
 }
+
 function retreat(){
-  if(SLIDE_IDS[idx]==='s7'&&s7step===1){
-    s7step=0;
-    document.getElementById('ec-col-right')?.classList.remove('highlighted');
-    return;
+  const id=SLIDE_IDS[idx];
+  if(id==='s7'&&s7step===1){s7step=0;document.getElementById('ec-col-right')?.classList.remove('highlighted');return;}
+  if(VG_STEPS[id]){
+    const step=vgStep[id];
+    if(step>0){
+      vgStep[id]--;
+      getEl(VG_STEPS[id][vgStep[id]])?.classList.remove('visible');
+      return;
+    }
   }
   showByIdx(idx-1);
 }
