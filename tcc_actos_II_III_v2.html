@@ -1368,6 +1368,7 @@ function showByIdx(i){
 if(idx>0)document.getElementById('hint').style.opacity='0';
   setTimeout(()=>{
     const sel='#'+id+' ';
+    document.querySelectorAll(sel+'.p-ey, '+sel+'.p-tl-ln, '+sel+'.p-rule, '+sel+'.p-meta').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.split-nm,'+sel+'.split-btn').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.prod-img-wrap,'+sel+'.prod-info,'+sel+'.prod-vs').forEach(el=>el.classList.add('v'));
     document.querySelectorAll(sel+'.inv-label,'+sel+'.inv-nm,'+sel+'.inv-rate,'+sel+'.inv-btn').forEach(el=>el.classList.add('v'));
