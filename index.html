@@ -222,132 +222,67 @@ html, body {
 /* ── S7 DIAGRAMA ESTRATEGIA CLIENTE ─────── */
 #s7 { background:var(--black); align-items:center; justify-content:center; }
 #s7 .ec-wrap {
-  width:100%; max-width:1200px; padding:0 60px;
-  display:flex; flex-direction:column; gap:12px;
+  width:100%; max-width:1180px; padding:0 60px;
+  display:flex; flex-direction:column; gap:16px;
   opacity:0; transform:translateY(20px);
   transition:opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
 }
 #s7.active .ec-wrap { opacity:1; transform:translateY(0); }
 
-/* título */
-.ec-title-row {
-  font-size:9px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase;
-  color:var(--gold); margin-bottom:4px;
+.ec-row { display:grid; grid-template-columns:160px 1fr; gap:24px; align-items:stretch; }
+.ec-label {
+  background:rgba(179,163,105,0.12); border:1px solid rgba(179,163,105,0.25);
+  padding:16px; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center; justify-content:center; text-align:center;
 }
 
-/* fila de cabeceras superiores */
-.ec-header-row {
-  display:grid; grid-template-columns:120px 1fr 1fr 1fr;
-  gap:6px; align-items:stretch;
-}
-.ec-header-cell {
-  background:rgba(179,163,105,0.12);
-  border:1px solid rgba(179,163,105,0.25);
-  padding:10px 14px;
-  font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
-  color:var(--gold); display:flex; align-items:center;
-}
-.ec-header-cell.label { background:rgba(179,163,105,0.08); color:rgba(250,250,248,0.5); }
-.ec-header-main {
-  background:rgba(179,163,105,0.18);
-  grid-column:span 1;
-  font-family:'Cormorant Garamond',serif; font-size:clamp(13px,1.4vw,17px);
-  font-weight:500; letter-spacing:0; text-transform:none; color:var(--white);
-  justify-content:center; text-align:center;
+/* Fila 1: Narrativa */
+.ec-r1-right { display:flex; flex-direction:column; gap:8px; }
+.ec-r1-box {
+  background:rgba(179,163,105,0.08); border:1px solid rgba(179,163,105,0.15);
+  padding:12px; text-align:center; font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--white);
 }
 
-/* body row */
-.ec-body-row {
-  display:grid; grid-template-columns:120px 1fr 1fr 1fr;
-  gap:6px; align-items:stretch; min-height:160px;
-}
-.ec-row-label {
-  background:rgba(179,163,105,0.08);
-  border:1px solid rgba(179,163,105,0.2);
-  padding:10px 14px;
-  font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase;
-  color:rgba(250,250,248,0.5);
-  display:flex; align-items:center; writing-mode:horizontal-tb;
+/* Fila 2: Objetivos */
+.ec-r2-right { display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; }
+.ec-r2-box {
+  background:rgba(179,163,105,0.12); border:1px solid rgba(179,163,105,0.25);
+  padding:16px; text-align:center; font-family:'Cormorant Garamond',serif; font-size:20px; line-height:1.2; color:var(--white);
+  display:flex; align-items:center; justify-content:center;
 }
 
-/* columna izquierda: bloques apilados */
-.ec-col-left {
-  border:1px solid rgba(179,163,105,0.2);
-  display:flex; flex-direction:column; gap:0;
-  overflow:hidden;
+/* Fila 3: Líneas Estratégicas */
+.ec-r3-right { display:flex; align-items:stretch; gap:14px; }
+.ec-v-text {
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(250,250,248,0.5);
+  text-align:center; display:flex; align-items:center; justify-content:center;
 }
-.ec-block {
-  flex:1; padding:10px 14px;
-  border-bottom:1px solid rgba(179,163,105,0.15);
-  font-size:11px; font-weight:300; line-height:1.5; color:rgba(250,250,248,0.7);
-  display:flex; align-items:center;
+.ec-chevron {
+  flex:1; background:var(--cream);
+  clip-path:polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+  padding:20px 32px 20px 16px;
+  display:flex; flex-direction:column; gap:10px; justify-content:center;
 }
-.ec-block:last-child { border-bottom:none; }
+.ec-chevron.flat { clip-path:none; padding-right:16px; }
+.ec-chevron-item {
+  background:var(--white); padding:10px 12px; text-align:center;
+  font-size:10px; font-weight:600; color:var(--black); line-height:1.35;
+  box-shadow:0 2px 4px rgba(0,0,0,0.05); border-radius:2px;
+  display:flex; align-items:center; justify-content:center; min-height:48px;
+}
+.ec-actor {
+  display:flex; flex-direction:column; align-items:center; justify-content:center; width:90px; gap:8px;
+}
+.ec-actor svg { width:42px; height:42px; fill:var(--white); }
+.ec-actor-title { font-size:10px; font-weight:600; letter-spacing:0.15em; color:var(--white); text-transform:uppercase;}
+.ec-actor-sub { font-size:8px; font-weight:300; color:rgba(250,250,248,0.6); text-align:center; line-height:1.4;}
 
-/* columna central: persona + flecha */
-.ec-col-person {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:8px; border:1px solid rgba(179,163,105,0.15); padding:12px;
-}
-.ec-person-icon { opacity:0.7; }
-.ec-person-label {
-  font-size:9px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase;
-  color:var(--gold);
-}
-.ec-person-sub {
-  font-size:9px; font-weight:300; color:rgba(250,250,248,0.4);
-  text-align:center; line-height:1.5;
-}
-.ec-arrow {
-  font-size:18px; color:rgba(179,163,105,0.5);
-}
-
-/* columna derecha: bloques ecosistema */
-.ec-col-right {
-  position:relative; display:flex; flex-direction:column; gap:0;
-  border:1px solid rgba(179,163,105,0.2); overflow:hidden;
-  transition:border-color 0.4s ease;
-}
-.ec-col-right.highlighted {
-  border-color:var(--gold);
-  box-shadow:0 0 24px rgba(179,163,105,0.15);
-}
-.ec-eco-block {
-  flex:1; padding:10px 14px;
-  border-bottom:1px solid rgba(179,163,105,0.15);
-  font-size:11px; font-weight:300; line-height:1.5; color:rgba(250,250,248,0.7);
-  display:flex; align-items:center; justify-content:center; text-align:center;
-  transition:color 0.4s ease, background 0.4s ease;
-}
-.ec-eco-block:last-child { border-bottom:none; }
-.ec-col-right.highlighted .ec-eco-block {
-  color:var(--white); background:rgba(179,163,105,0.08);
-}
-.ec-eco-label {
-  position:absolute; right:-28px; top:50%; transform:translateY(-50%) rotate(90deg);
-  font-size:8px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase;
-  color:rgba(179,163,105,0.5); white-space:nowrap;
-  transition:color 0.4s ease;
-}
-.ec-col-right.highlighted .ec-eco-label { color:var(--gold); }
-
-/* fila de medición */
-.ec-medicion-row {
-  display:grid; grid-template-columns:120px 1fr;
-  gap:6px;
-}
-.ec-medicion-label {
-  background:rgba(179,163,105,0.08); border:1px solid rgba(179,163,105,0.2);
-  padding:8px 14px; font-size:9px; font-weight:600; letter-spacing:0.2em;
-  text-transform:uppercase; color:rgba(250,250,248,0.4);
-  display:flex; align-items:center;
-}
-.ec-medicion-val {
-  border:1px solid rgba(179,163,105,0.15); padding:8px 14px;
-  font-size:10px; font-weight:400; letter-spacing:0.15em;
-  color:rgba(179,163,105,0.6); display:flex; align-items:center;
-}
-
+/* Fila 4: Medición */
+.ec-r4-right { display:flex; align-items:center; border-bottom:1px solid rgba(179,163,105,0.4); padding-bottom:6px; }
+.ec-r4-text { font-size:10px; font-weight:600; letter-spacing:0.2em; color:rgba(250,250,248,0.6); margin-left:16px; }
+  
+  
 /* ── S9 / S10 CUADRÍCULA VERTIENTES ─────── */
 #s9, #s10 { background:var(--black); align-items:center; justify-content:center; }
 .vg-wrap { width:100%; max-width:1200px; padding:0 60px; display:flex; flex-direction:column; gap:20px; }
@@ -793,68 +728,81 @@ html, body {
 <!-- S7 — DIAGRAMA ESTRATEGIA CLIENTE -->
 <div class="slide" id="s7">
   <div class="ec-wrap">
-    <div class="ec-title-row">Estrategia Cliente — poner al cliente en el centro para mejorar la experiencia y fortalecer la relación</div>
-
-    <!-- cabeceras -->
-    <div class="ec-header-row">
-      <div class="ec-header-cell label"></div>
-      <div class="ec-header-cell ec-header-main">Mejorar la toma<br>de decisiones</div>
-      <div class="ec-header-cell ec-header-main">Incrementar<br>oportunidades</div>
-      <div class="ec-header-cell ec-header-main" id="ec-header-right">Generar un<br>mayor interés</div>
-    </div>
-
-    <!-- narrativa -->
-    <div class="ec-header-row" style="min-height:auto">
-      <div class="ec-header-cell label">Narrativa</div>
-      <div class="ec-header-cell ec-header-main" style="grid-column:span 3; font-size:11px; letter-spacing:0.08em; color:rgba(250,250,248,0.6); font-family:'Montserrat',sans-serif; font-weight:300; justify-content:flex-start;">
-        Narrativa de posicionamiento de la división &nbsp;·&nbsp; Discurso comercial por destino
+    
+    <!-- Fila 1: Narrativa -->
+    <div class="ec-row">
+      <div class="ec-label">Narrativa</div>
+      <div class="ec-r1-right">
+        <div class="ec-r1-box">Narrativa de posicionamiento de la división</div>
+        <div class="ec-r1-box">Discurso comercial por destino</div>
       </div>
     </div>
 
-    <!-- body -->
-    <div class="ec-body-row">
-      <div class="ec-row-label">Líneas<br>estratégicas</div>
+    <!-- Fila 2: Objetivos -->
+    <div class="ec-row">
+      <div class="ec-label">Objetivos</div>
+      <div class="ec-r2-right">
+        <div class="ec-r2-box">Mejorar la toma<br>de decisiones</div>
+        <div class="ec-r2-box">Incrementar<br>oportunidades</div>
+        <div class="ec-r2-box">Generar un<br>mayor interés</div>
+      </div>
+    </div>
 
-      <!-- col izquierda: influencia indirecta -->
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Influencia indirecta</div>
-        <div class="ec-col-left">
-          <div class="ec-block">Procesos: Business cases, contratos…</div>
-          <div class="ec-block">Herramientas / CRM</div>
-          <div class="ec-block">KPIs / Análisis</div>
+    <!-- Fila 3: Líneas Estratégicas (El Flujo) -->
+    <div class="ec-row">
+      <div class="ec-label" style="background:var(--cream); color:var(--black); border:none;">Líneas<br>estratégicas</div>
+      <div class="ec-r3-right">
+        
+        <div class="ec-v-text">Influencia Indirecta</div>
+        
+        <div class="ec-chevron">
+          <div class="ec-chevron-item">Procesos: Business cases, contratos...</div>
+          <div class="ec-chevron-item">Herramientas / CRM</div>
+          <div class="ec-chevron-item">KPIs / Análisis</div>
         </div>
-      </div>
 
-      <!-- col centro: equipo -->
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Influencia directa</div>
-        <div class="ec-col-left">
-          <div class="ec-block">Materiales comerciales</div>
-          <div class="ec-block">Campañas digitales</div>
-          <div class="ec-block">Encuentros con clientes</div>
+        <div class="ec-actor">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <div class="ec-actor-title">Equipo</div>
         </div>
-      </div>
 
-      <!-- col derecha: ecosistema cliente -->
-      <div style="display:flex;flex-direction:column;gap:6px;position:relative;">
-        <div style="font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(179,163,105,0.4);margin-bottom:2px;">Ecosistema Cliente</div>
-        <div class="ec-col-right" id="ec-col-right">
-          <div class="ec-eco-block">Medios de comunicación<br>y canales propios</div>
-          <div class="ec-eco-block">Reconocimientos<br>y patrocinios</div>
-          <div class="ec-eco-block">Foros, convenciones<br>y asociaciones</div>
-          <div class="ec-eco-label">ECOSISTEMA CLIENTE</div>
+        <div class="ec-v-text">Influencia Directa</div>
+
+        <div class="ec-chevron">
+          <div class="ec-chevron-item">Materiales comerciales</div>
+          <div class="ec-chevron-item">Campañas digitales</div>
+          <div class="ec-chevron-item">Encuentros con clientes</div>
         </div>
+
+        <div class="ec-actor">
+          <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="ec-actor-title">Cliente</div>
+          <div class="ec-actor-sub">Potencial cliente, inversor, propietario</div>
+        </div>
+
+        <div class="ec-chevron flat">
+          <div class="ec-chevron-item">Medios de comunicación y canales propios</div>
+          <div class="ec-chevron-item">Reconocimientos y patrocinios</div>
+          <div class="ec-chevron-item">Foros, convenciones y asociaciones</div>
+        </div>
+
+        <div class="ec-v-text">Ecosistema Cliente</div>
+
       </div>
     </div>
 
-    <!-- medición -->
-    <div class="ec-medicion-row">
-      <div class="ec-medicion-label">Medición</div>
-      <div class="ec-medicion-val">OKR</div>
+    <!-- Fila 4: Medición -->
+    <div class="ec-row">
+      <div class="ec-label" style="opacity:0.6;">Medición</div>
+      <div class="ec-r4-right">
+        <div class="ec-r4-text">OKR</div>
+      </div>
     </div>
+
   </div>
 </div>
 
+  
 <!-- S8 — HBR -->
 <div class="slide" id="s8">
   <div class="s8-inner">
