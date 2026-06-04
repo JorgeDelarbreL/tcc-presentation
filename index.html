@@ -11,6 +11,7 @@
 <style>
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
   --black:      #080808;
   --white:      #FAFAF8;
@@ -19,7 +20,17 @@
   --gold-light: #CFC08A;
   --red:        #C0392B;
   --green:      #27AE60;
+  
+  /* --- ENLACES A VARIABLES CORTAS --- */
+  --k: var(--black);
+  --w: var(--white);
+  --c: var(--cream);
+  --g: var(--gold);
+  --gl: var(--gold-light);
+  --gr: rgba(250,250,248,0.55);
+  --gd: #8B7D4A;
 }
+
 html, body {
   width: 100%; height: 100%;
   background: var(--black); color: var(--white);
@@ -609,7 +620,7 @@ html, body {
   <div class="p-bg"><img id="aerialImg" src="img/aerial.jpg" alt="aerial"></div>
   <div class="p-grain"></div>
   <div class="p-cnt">
-    <div class="p-ey" id="pey">División Real Estate &amp; Golf · Grupo Piñero</div>
+    <div class="p-ey" id="pey">División de Real Estate &amp; Golf · Piñero</div>
     <div class="p-tl">
       <div class="p-tl-ln" id="ptl0"><span>El área</span></div>
       <div class="p-tl-ln it" id="ptl1"><span>de Comunicación</span></div>
