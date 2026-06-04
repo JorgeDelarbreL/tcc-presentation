@@ -220,14 +220,16 @@ html, body {
 .active .rep-detail { opacity:1; transform:translateX(0); }
 
 /* ── S7 DIAGRAMA ESTRATEGIA CLIENTE ─────── */
-#s7 { background:var(--black); align-items:center; justify-content:center; }
-#s7 .ec-wrap {
+/* ── S7 DIAGRAMA ESTRATEGIA CLIENTE ─────── */
+#s7, #s26b { background:var(--black); align-items:center; justify-content:center; }
+#s7 .ec-wrap, #s26b .ec-wrap {
   width:100%; max-width:1180px; padding:0 60px;
   display:flex; flex-direction:column; gap:16px;
   opacity:0; transform:translateY(20px);
   transition:opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
 }
-#s7.active .ec-wrap { opacity:1; transform:translateY(0); }
+#s7.active .ec-wrap, #s26b.active .ec-wrap { opacity:1; transform:translateY(0); }
+  
 
 .ec-row { display:grid; grid-template-columns:160px 1fr; gap:24px; align-items:stretch; }
 .ec-label {
@@ -1147,6 +1149,70 @@ html, body {
   </div>
 </div>
 
+  <!-- S26b — DIAGRAMA ESTRATEGIA CLIENTE (RECAP) -->
+<div class="slide" id="s26b">
+  <div class="ec-wrap">
+    
+    <div class="ec-row">
+      <div class="ec-label">Narrativa</div>
+      <div class="ec-r1-right">
+        <div class="ec-r1-box">Narrativa de posicionamiento de la división</div>
+        <div class="ec-r1-box">Discurso comercial por destino</div>
+      </div>
+    </div>
+
+    <div class="ec-row">
+      <div class="ec-label">Objetivos</div>
+      <div class="ec-r2-right">
+        <div class="ec-r2-box">Mejorar la toma<br>de decisiones</div>
+        <div class="ec-r2-box">Incrementar<br>oportunidades</div>
+        <div class="ec-r2-box">Generar un<br>mayor interés</div>
+      </div>
+    </div>
+
+    <div class="ec-row">
+      <div class="ec-label" style="background:var(--cream); color:var(--black); border:none;">Líneas<br>estratégicas</div>
+      <div class="ec-r3-right">
+        <div class="ec-v-text">Influencia Indirecta</div>
+        <div class="ec-chevron">
+          <div class="ec-chevron-item">Procesos: Business cases, contratos...</div>
+          <div class="ec-chevron-item">Herramientas / CRM</div>
+          <div class="ec-chevron-item">KPIs / Análisis</div>
+        </div>
+        <div class="ec-actor">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <div class="ec-actor-title">Equipo</div>
+        </div>
+        <div class="ec-v-text">Influencia Directa</div>
+        <div class="ec-chevron">
+          <div class="ec-chevron-item">Materiales comerciales</div>
+          <div class="ec-chevron-item">Campañas digitales</div>
+          <div class="ec-chevron-item">Encuentros con clientes</div>
+        </div>
+        <div class="ec-actor">
+          <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="ec-actor-title">Cliente</div>
+          <div class="ec-actor-sub">Potencial cliente, inversor, propietario</div>
+        </div>
+        <div class="ec-chevron flat">
+          <div class="ec-chevron-item">Medios de comunicación y canales propios</div>
+          <div class="ec-chevron-item">Reconocimientos y patrocinios</div>
+          <div class="ec-chevron-item">Foros, convenciones y asociaciones</div>
+        </div>
+        <div class="ec-v-text">Ecosistema Cliente</div>
+      </div>
+    </div>
+
+    <div class="ec-row">
+      <div class="ec-label" style="opacity:0.6;">Medición</div>
+      <div class="ec-r4-right">
+        <div class="ec-r4-text">OKR</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+  
 <!-- S27 — OBAMA -->
 <div class="slide" id="s27">
   <div class="obama-label">Para cerrar.</div>
@@ -1175,7 +1241,7 @@ const SLIDE_IDS=[
   's14a', 's14b', 's14c',
   's22', 's23',
   's15', 's16', 's17', 's18', 's19', 's20',
-  's25', 's26', 's27'
+  's25', 's26', 's26b', 's27'
 ];
 const LAST_NUM = SLIDE_IDS.length - 1; // Cálculo dinámico automático
 let idx=0,s7step=0;
@@ -1220,7 +1286,7 @@ function showByIdx(i){
     });
   }
 
-  if(id!=='s7'){s7step=0;const r=document.getElementById('ec-col-right');if(r)r.classList.remove('highlighted');}
+  
   if(id!=='s9')resetVG('s9');
   if(id!=='s10')resetVG('s10');
   updateChrome();
@@ -1240,8 +1306,6 @@ function showByIdx(i){
   
 function advance(){
   const id=SLIDE_IDS[idx];
-  /* s7 dos estados */
-  if(id==='s7'&&s7step===0){s7step=1;document.getElementById('ec-col-right')?.classList.add('highlighted');return;}
   /* s9 y s10 reveal escalonado */
   if(VG_STEPS[id]){
     const step=vgStep[id];
@@ -1252,6 +1316,19 @@ function advance(){
     }
   }
   showByIdx(idx+1);
+}
+
+function retreat(){
+  const id=SLIDE_IDS[idx];
+  if(VG_STEPS[id]){
+    const step=vgStep[id];
+    if(step>0){
+      vgStep[id]--;
+      getEl(VG_STEPS[id][vgStep[id]])?.classList.remove('visible');
+      return;
+    }
+  }
+  showByIdx(idx-1);
 }
 
 function retreat(){
